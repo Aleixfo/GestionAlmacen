@@ -2,13 +2,15 @@ program gestion_almacen;
 
 uses
   Vcl.Forms,
-  Unit1 in 'Unit1.pas' {Form1};
+  UMain in 'UMain.pas' {FMain},
+  UDm in 'UDm.pas' {dm: TDataModule};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(Tdm, dm);
+  Application.CreateForm(TFMain, FMain);
   Application.Run;
 end.
