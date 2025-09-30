@@ -34,7 +34,7 @@ implementation
 
 {$R *.dfm}
 
-uses UClientes, UProveedores;
+uses UClientes, UProveedores, UProductos;
 
 // Procedimiento de la logica al pulsar el boton de clientes (Boton Clientes --> OnClick)
 procedure TFMain.BtnClientesClick(Sender: TObject);
@@ -56,7 +56,9 @@ end;
 // Procedimiento de la logica al pulsar el boton de productos (Boton Productos --> OnClick)
 procedure TFMain.BtnProductosClick(Sender: TObject);
 begin
-  ShowMessage('Abriendo gestión de productos...');
+  if not Assigned(FProductos) then
+    FProductos := TFProductos.Create(Self);
+  FProductos.Show;
 end;
 
 // Procedimiento de la logica al pulsar el boton de movimientos (Boton Movimientos --> OnClick)
