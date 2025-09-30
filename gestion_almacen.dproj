@@ -109,6 +109,22 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="UClientes.pas">
+            <Form>FClientes</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UProveedores.pas">
+            <Form>FProveedores</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UProductos.pas">
+            <Form>FProductos</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UMovimientos.pas">
+            <Form>FMovimientos</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

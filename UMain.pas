@@ -34,7 +34,7 @@ implementation
 
 {$R *.dfm}
 
-uses UClientes, UProveedores, UProductos;
+uses UClientes, UProveedores, UProductos, UMovimientos;
 
 // Procedimiento de la logica al pulsar el boton de clientes (Boton Clientes --> OnClick)
 procedure TFMain.BtnClientesClick(Sender: TObject);
@@ -64,7 +64,9 @@ end;
 // Procedimiento de la logica al pulsar el boton de movimientos (Boton Movimientos --> OnClick)
 procedure TFMain.BtnMovimientosClick(Sender: TObject);
 begin
-  ShowMessage('Abriendo gestión de movimientos...');
+  if not Assigned(FProductos) then
+    FMovimientos := TFMovimientos.Create(Self);
+  FMovimientos.Show;
 end;
 
 // Procedimiento con la logica que se ejecuta cuando se crea el formulario principal (UMain)
