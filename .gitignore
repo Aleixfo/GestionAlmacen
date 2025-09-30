@@ -1,0 +1,42 @@
+# Archivos compilados de Delphi
+*.dcu
+*.dcpil
+*.dcp
+*.drc
+*.dproj.local
+*.~*
+*.local
+*.identcache
+*.stat
+
+# Archivos ejecutables
+*.exe
+*.dll
+*.bpl
+*.so
+*.dylib
+
+# Directorios de compilación
+__history/
+__recovery/
+backups/
+Win32/
+Win64/
+Android/
+iOS/
+
+# Archivos de configuración personal
+*.dsk
+*.cfg
+*.dof
+
+# Archivos temporales
+*.tmp
+*.log
+*.rsm
+*.tds
+*.map
+
+# Copias de seguridad del IDE
+*.bak
+*.dsk
