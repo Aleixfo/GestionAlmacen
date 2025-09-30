@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UDm, Vcl.StdCtrls, UClientes;  // IMPORTANTE: Agregar UDm
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UDm, Vcl.StdCtrls;  // IMPORTANTE: Agregar UDm
 
 type
   TFMain = class(TForm)
@@ -34,6 +34,8 @@ implementation
 
 {$R *.dfm}
 
+uses UClientes, UProveedores;
+
 // Procedimiento de la logica al pulsar el boton de clientes (Boton Clientes --> OnClick)
 procedure TFMain.BtnClientesClick(Sender: TObject);
 begin
@@ -46,7 +48,9 @@ end;
 // Procedimiento de la logica al pulsar el boton de proveedores (Boton Proveedores --> OnClick)
 procedure TFMain.BtnProveedoresClick(Sender: TObject);
 begin
-  ShowMessage('Abriendo gestión de proveedores...');
+  if not Assigned(FProveedores) then
+    FProveedores := TFProveedores.Create(Self);
+  FProveedores.Show;
 end;
 
 // Procedimiento de la logica al pulsar el boton de productos (Boton Productos --> OnClick)
