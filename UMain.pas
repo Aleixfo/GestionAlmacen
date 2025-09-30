@@ -4,11 +4,23 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UDm;  // IMPORTANTE: Agregar UDm
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UDm, Vcl.StdCtrls, UClientes;  // IMPORTANTE: Agregar UDm
 
 type
   TFMain = class(TForm)
+
+    // Botones de Menu
+    BtnClientes: TButton;
+    BtnProveedores: TButton;
+    BtnProductos: TButton;
+    BtnMovimientos: TButton;
+
+    // Procedimientos
     procedure FormCreate(Sender: TObject);
+    procedure BtnClientesClick(Sender: TObject);
+    procedure BtnProveedoresClick(Sender: TObject);
+    procedure BtnProductosClick(Sender: TObject);
+    procedure BtnMovimientosClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -22,6 +34,34 @@ implementation
 
 {$R *.dfm}
 
+// Procedimiento de la logica al pulsar el boton de clientes (Boton Clientes --> OnClick)
+procedure TFMain.BtnClientesClick(Sender: TObject);
+begin
+  // Crear y mostrar el formulario de clientes
+  if not Assigned(FClientes) then
+    FClientes := TFClientes.Create(Self);
+  FClientes.Show;
+end;
+
+// Procedimiento de la logica al pulsar el boton de proveedores (Boton Proveedores --> OnClick)
+procedure TFMain.BtnProveedoresClick(Sender: TObject);
+begin
+  ShowMessage('Abriendo gestión de proveedores...');
+end;
+
+// Procedimiento de la logica al pulsar el boton de productos (Boton Productos --> OnClick)
+procedure TFMain.BtnProductosClick(Sender: TObject);
+begin
+  ShowMessage('Abriendo gestión de productos...');
+end;
+
+// Procedimiento de la logica al pulsar el boton de movimientos (Boton Movimientos --> OnClick)
+procedure TFMain.BtnMovimientosClick(Sender: TObject);
+begin
+  ShowMessage('Abriendo gestión de movimientos...');
+end;
+
+// Procedimiento con la logica que se ejecuta cuando se crea el formulario principal (UMain)
 procedure TFMain.FormCreate(Sender: TObject);
 begin
   // Probamos la conexión y carga de datos
@@ -30,8 +70,8 @@ begin
   if dm.EstaConectado then
   begin
     dm.AbrirTablas;
-    ShowMessage('Conexión exitosa a la base de datos' + #13#10 +
-                'Tablas cargadas correctamente');
+    { ShowMessage('Conexión exitosa a la base de datos' + #13#10 +
+                'Tablas cargadas correctamente'); }
   end
   else
   begin

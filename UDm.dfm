@@ -1,14 +1,14 @@
 object dm: Tdm
   OldCreateOrder = False
   Height = 517
-  Width = 789
+  Width = 239
   object db: TMyConnection
     Database = 'gestion_almacen'
     Username = 'root'
     Server = 'localhost'
     Connected = True
-    Left = 56
-    Top = 40
+    Left = 96
+    Top = 48
     EncryptedPassword = '8DFF90FF90FF8BFF'
   end
   object tproveedores: TMyTable
