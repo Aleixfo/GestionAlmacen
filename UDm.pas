@@ -66,6 +66,10 @@ type
     tmovimientosreferencia: TStringField;
     tmovimientosobservaciones: TMemoField;
 
+    // Componentes para la Query de recuperar los movimientos de un cliente
+    qryMovimientosCliente: TMyQuery;
+    dsMovimientosCliente: TDataSource;
+
   private
     { Private declarations }
   public

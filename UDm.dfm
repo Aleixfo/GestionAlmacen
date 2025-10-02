@@ -1,7 +1,7 @@
 object dm: Tdm
   OldCreateOrder = False
   Height = 517
-  Width = 239
+  Width = 757
   object db: TMyConnection
     Database = 'gestion_almacen'
     Username = 'root'
@@ -16,7 +16,7 @@ object dm: Tdm
     Connection = db
     Options.FieldOrigins = foNone
     Left = 56
-    Top = 128
+    Top = 200
     object tproveedoresid: TIntegerField
       FieldName = 'id'
     end
@@ -51,7 +51,7 @@ object dm: Tdm
     Connection = db
     Options.FieldOrigins = foNone
     Left = 56
-    Top = 200
+    Top = 128
     object tclientesid: TIntegerField
       FieldName = 'id'
     end
@@ -162,12 +162,12 @@ object dm: Tdm
   object dsproveedores: TDataSource
     DataSet = tproveedores
     Left = 136
-    Top = 128
+    Top = 200
   end
   object dsclientes: TDataSource
     DataSet = tclientes
     Left = 136
-    Top = 200
+    Top = 128
   end
   object dsproductos: TDataSource
     DataSet = tproductos
@@ -178,5 +178,15 @@ object dm: Tdm
     DataSet = tmovimientos
     Left = 144
     Top = 344
+  end
+  object qryMovimientosCliente: TMyQuery
+    Connection = db
+    Left = 248
+    Top = 136
+  end
+  object dsMovimientosCliente: TDataSource
+    DataSet = qryMovimientosCliente
+    Left = 328
+    Top = 136
   end
 end

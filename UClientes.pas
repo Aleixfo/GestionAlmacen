@@ -5,24 +5,47 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, UDm;
+  Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Mask, UDm, UMovimientosCliente;
 
 type
   TFClientes = class(TForm)
 
     // Componentes de UClientes.dfm
     DBGrid1: TDBGrid; //Grid
-    DBNavigator1: TDBNavigator; // Barra de navegacion
-    Panel1: TPanel; // Panel
+    DBNavigator1: TDBNavigator;
+    pnlDatos: TPanel; // Panel
     BtnNuevo: TButton; // Boton de nuevo cliente
     BtnEditar: TButton; // Boton de editar cliente existente
     BtnEliminar: TButton;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    DBEdit1: TDBEdit;
+    DBEdit2: TDBEdit;
+    DBEdit3: TDBEdit;
+    DBEdit4: TDBEdit;
+    pnlBotones: TPanel;
+    BtnGuardar: TButton;
+    BtnCancelar: TButton;
+    BtnBuscar: TButton;
+    pnlGrid: TPanel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    DBEdit5: TDBEdit;
+    Label8: TLabel;
+    DBCheckBox1: TDBCheckBox;
+    DBMemo1: TDBMemo;
+    btnMovimientos: TButton;
 
     // Procedimientos de UClientes
     procedure FormShow(Sender: TObject); // Logica al cargar el formulario de clientes
     procedure BtnNuevoClick(Sender: TObject); // Boton de nuevo cliente
     procedure BtnEditarClick(Sender: TObject); // Boton de editar cliente
-    procedure BtnEliminarClick(Sender: TObject); // Boton de eliminar cliente
+    procedure BtnEliminarClick(Sender: TObject);
+    procedure btnMovimientosClick(Sender: TObject); // Boton de eliminar cliente
 
   private
     { Private declarations }
@@ -72,6 +95,36 @@ begin
   end
   else
     ShowMessage('No hay clientes para eliminar');
+end;
+
+{
+procedure TFClientes.btnMovimientosClick(Sender: TObject);
+begin
+  // Crear y mostrar el formulario de clientes
+  if not Assigned(FMovimientosCliente) then
+    FMovimientosCliente := TFMovimientosCliente.Create(Self);
+  FMovimientosCliente.Show;
+end;
+}
+
+procedure TFClientes.BtnMovimientosClick(Sender: TObject);
+begin
+  if not dm.tclientes.IsEmpty then
+  begin
+    // Crear y mostrar el formulario de movimientos
+    with TFMovimientosCliente.Create(Self) do
+    try
+    showmessage('hi');
+      // Pasar el ID y nombre del cliente seleccionado
+      ClienteID := dm.tclientes.FieldByName('id').AsInteger;
+      ClienteNombre := dm.tclientes.FieldByName('nombre').AsString;
+      ShowModal;
+    finally
+      Free;
+    end;
+  end
+  else
+    ShowMessage('Por favor, seleccione un cliente primero');
 end;
 
 end.
