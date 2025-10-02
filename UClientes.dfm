@@ -26,17 +26,63 @@ object FClientes: TFClientes
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'id'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'nombre'
+        Width = 128
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'contacto'
+        Width = 128
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'telefono'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'email'
+        Width = 128
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'direccion'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'fecha_alta'
+        Width = 97
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'activo'
+        Visible = True
+      end>
   end
   object DBNavigator1: TDBNavigator
-    Left = 72
-    Top = 24
+    Left = 609
+    Top = 225
     Width = 240
     Height = 25
     TabOrder = 1
   end
   object Panel1: TPanel
-    Left = 96
-    Top = 88
+    Left = 408
+    Top = 64
     Width = 185
     Height = 41
     Caption = 'Panel1'

@@ -33,6 +33,50 @@ object FProveedores: TFProveedores
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'id'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'nombre'
+        Width = 124
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'contacto'
+        Width = 124
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'telefono'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'email'
+        Width = 124
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'direccion'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'activo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'fecha_alta'
+        Visible = True
+      end>
   end
   object Panel1: TPanel
     Left = 128

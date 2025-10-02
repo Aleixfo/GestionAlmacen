@@ -69,5 +69,53 @@ object FMovimientos: TFMovimientos
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'id'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'producto_id'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'tipo_movimiento'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'cantidad'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'proveedor_id'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'cliente_id'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'fecha_movimiento'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'referencia'
+        Width = 124
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'observaciones'
+        Width = 124
+        Visible = True
+      end>
   end
 end

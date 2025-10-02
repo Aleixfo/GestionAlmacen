@@ -68,5 +68,58 @@ object FProductos: TFProductos
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'id'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'codigo'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'nombre'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'descripcion'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'precio_compra'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'precio_venta'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'stock_actual'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'activo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'fecha_alta'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'fecha_actualizacion'
+        Visible = True
+      end>
   end
 end
