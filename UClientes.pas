@@ -39,6 +39,7 @@ type
     DBCheckBox1: TDBCheckBox;
     DBMemo1: TDBMemo;
     btnMovimientos: TButton;
+    pnlPrincipal: TPanel;
 
     // Procedimientos de UClientes
     procedure FormShow(Sender: TObject); // Logica al cargar el formulario de clientes
@@ -114,7 +115,6 @@ begin
     // Crear y mostrar el formulario de movimientos
     with TFMovimientosCliente.Create(Self) do
     try
-    showmessage('hi');
       // Pasar el ID y nombre del cliente seleccionado
       ClienteID := dm.tclientes.FieldByName('id').AsInteger;
       ClienteNombre := dm.tclientes.FieldByName('nombre').AsString;
