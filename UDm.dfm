@@ -15,8 +15,8 @@ object dm: Tdm
     TableName = 'proveedores'
     Connection = db
     Options.FieldOrigins = foNone
-    Left = 56
-    Top = 192
+    Left = 120
+    Top = 304
     object tproveedoresid: TIntegerField
       FieldName = 'id'
     end
@@ -50,8 +50,8 @@ object dm: Tdm
     TableName = 'clientes'
     Connection = db
     Options.FieldOrigins = foNone
-    Left = 56
-    Top = 120
+    Left = 120
+    Top = 232
     object tclientesid: TIntegerField
       FieldName = 'id'
     end
@@ -85,8 +85,8 @@ object dm: Tdm
     TableName = 'productos'
     Connection = db
     Options.FieldOrigins = foNone
-    Left = 56
-    Top = 264
+    Left = 120
+    Top = 376
     object tproductosid: TIntegerField
       FieldName = 'id'
     end
@@ -128,8 +128,8 @@ object dm: Tdm
     MasterSource = dsclientes
     Connection = db
     Options.FieldOrigins = foNone
-    Left = 56
-    Top = 336
+    Left = 416
+    Top = 144
     object tmovimientosid: TIntegerField
       FieldName = 'id'
     end
@@ -164,23 +164,23 @@ object dm: Tdm
   end
   object dsproveedores: TDataSource
     DataSet = tproveedores
-    Left = 136
-    Top = 192
+    Left = 200
+    Top = 304
   end
   object dsclientes: TDataSource
     DataSet = tclientes
-    Left = 136
-    Top = 120
+    Left = 200
+    Top = 232
   end
   object dsproductos: TDataSource
     DataSet = tproductos
-    Left = 136
-    Top = 264
+    Left = 200
+    Top = 376
   end
   object dsmovimientos: TDataSource
     DataSet = tmovimientos
-    Left = 136
-    Top = 336
+    Left = 544
+    Top = 144
   end
   object qryMovimientosCliente: TMyQuery
     Connection = db
@@ -201,8 +201,8 @@ object dm: Tdm
       'ORDER BY m.fecha_movimiento DESC')
     Options.FieldOrigins = foNone
     MasterSource = dsclientes
-    Left = 296
-    Top = 56
+    Left = 416
+    Top = 216
     ParamData = <
       item
         DataType = ftInteger
@@ -247,86 +247,75 @@ object dm: Tdm
   end
   object dsMovimientosCliente: TDataSource
     DataSet = qryMovimientosCliente
-    Left = 424
-    Top = 56
+    Left = 544
+    Top = 216
   end
-  object MyQuery1: TMyQuery
+  object qryMovimientosProveedor: TMyQuery
     Connection = db
     SQL.Strings = (
-      'select * from movimientos')
-    OnCalcFields = MyQuery1CalcFields
+      'SELECT m.id,'
+      'm.fecha_movimiento,'
+      'm.tipo_movimiento,'
+      'p.precio_compra as producto_precio,'
+      'p.nombre as producto_nombre,'
+      'm.cantidad,'
+      'm.referencia,'
+      'm.observaciones, '
+      '(p.precio_venta * m.cantidad) as total'
+      'FROM movimientos m'
+      'JOIN productos p'
+      'ON m.producto_id = p.id'
+      'WHERE m.proveedor_id = :proveedor_id '
+      'ORDER BY m.fecha_movimiento DESC')
+    OnCalcFields = qryMovimientosProveedorCalcFields
     Options.FieldOrigins = foNone
-    Left = 296
-    Top = 128
-    object MyQuery1id: TIntegerField
+    MasterSource = dsproveedores
+    DetailFields = 'proveedor_id'
+    Left = 416
+    Top = 288
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'proveedor_id'
+        ParamType = ptInput
+        Value = nil
+      end>
+    object qryMovimientosProveedorid: TIntegerField
       FieldName = 'id'
     end
-    object MyQuery1producto_id: TIntegerField
-      FieldName = 'producto_id'
+    object qryMovimientosProveedorfecha_movimiento: TDateTimeField
+      FieldName = 'fecha_movimiento'
     end
-    object MyQuery1tipo_movimiento: TStringField
+    object qryMovimientosProveedortipo_movimiento: TStringField
       FieldName = 'tipo_movimiento'
       FixedChar = True
       Size = 7
     end
-    object MyQuery1cantidad: TIntegerField
+    object qryMovimientosProveedorproducto_precio: TFloatField
+      FieldName = 'producto_precio'
+    end
+    object qryMovimientosProveedorproducto_nombre: TStringField
+      FieldName = 'producto_nombre'
+      Size = 100
+    end
+    object qryMovimientosProveedorcantidad: TIntegerField
       FieldName = 'cantidad'
     end
-    object MyQuery1proveedor_id: TIntegerField
-      FieldName = 'proveedor_id'
-    end
-    object MyQuery1cliente_id: TIntegerField
-      FieldName = 'cliente_id'
-    end
-    object MyQuery1fecha_movimiento: TDateTimeField
-      FieldName = 'fecha_movimiento'
-    end
-    object MyQuery1referencia: TStringField
+    object qryMovimientosProveedorreferencia: TStringField
       FieldName = 'referencia'
       Size = 100
     end
-    object MyQuery1observaciones: TMemoField
+    object qryMovimientosProveedorobservaciones: TMemoField
       FieldName = 'observaciones'
       BlobType = ftMemo
     end
-    object MyQuery1nomcli: TStringField
-      FieldKind = fkLookup
-      FieldName = 'nomcli'
-      LookupDataSet = tclientes
-      LookupKeyFields = 'id'
-      LookupResultField = 'nombre'
-      KeyFields = 'cliente_id'
-      Size = 40
-      Lookup = True
-    end
-    object MyQuery1nompro: TStringField
-      FieldKind = fkLookup
-      FieldName = 'nompro'
-      LookupDataSet = tproveedores
-      LookupKeyFields = 'id'
-      LookupResultField = 'nombre'
-      KeyFields = 'proveedor_id'
-      Size = 40
-      Lookup = True
-    end
-    object MyQuery1import: TFloatField
-      FieldKind = fkCalculated
-      FieldName = 'import'
-      Calculated = True
-    end
-    object MyQuery1preucompra: TFloatField
-      FieldKind = fkLookup
-      FieldName = 'preucompra'
-      LookupDataSet = tproductos
-      LookupKeyFields = 'id'
-      LookupResultField = 'precio_compra'
-      KeyFields = 'producto_id'
-      Lookup = True
+    object qryMovimientosProveedortotal: TFloatField
+      FieldName = 'total'
     end
   end
-  object DataSource1: TDataSource
-    DataSet = MyQuery1
-    Left = 424
-    Top = 128
+  object dsMovimientosProveedor: TDataSource
+    DataSet = qryMovimientosProveedor
+    Left = 544
+    Top = 288
   end
 end

@@ -40,6 +40,8 @@ type
     DBMemo1: TDBMemo;
     btnMovimientos: TButton;
     pnlPrincipal: TPanel;
+    Label9: TLabel;
+    DBEdit6: TDBEdit;
 
     // Procedimientos de UClientes
     procedure FormShow(Sender: TObject); // Logica al cargar el formulario de clientes

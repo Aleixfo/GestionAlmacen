@@ -21,10 +21,6 @@ object FClientes: TFClientes
     Height = 623
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 592
-    ExplicitTop = 224
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object pnlGrid: TPanel
       Left = 1
       Top = 367
@@ -32,8 +28,6 @@ object FClientes: TFClientes
       Height = 255
       Align = alBottom
       TabOrder = 0
-      ExplicitTop = 368
-      ExplicitWidth = 861
       object Label5: TLabel
         Left = 1
         Top = 1
@@ -41,8 +35,7 @@ object FClientes: TFClientes
         Height = 13
         Align = alTop
         Caption = 'Lista de Clientes'
-        ExplicitLeft = -7
-        ExplicitWidth = 870
+        ExplicitWidth = 78
       end
       object DBGrid1: TDBGrid
         Left = 1
@@ -107,7 +100,6 @@ object FClientes: TFClientes
           item
             Expanded = False
             FieldName = 'activo'
-            Width = 64
             Visible = True
           end>
       end
@@ -119,7 +111,6 @@ object FClientes: TFClientes
       Height = 328
       Align = alTop
       TabOrder = 1
-      ExplicitWidth = 861
       object GroupBox1: TGroupBox
         Left = 1
         Top = 1
@@ -128,8 +119,8 @@ object FClientes: TFClientes
         Align = alClient
         Caption = 'Informaci'#243'n del Cliente'
         TabOrder = 0
-        ExplicitWidth = 861
-        ExplicitHeight = 319
+        ExplicitLeft = 0
+        ExplicitTop = 4
         object Label1: TLabel
           Left = 16
           Top = 32
@@ -173,11 +164,18 @@ object FClientes: TFClientes
           Caption = 'Activo :'
         end
         object Label8: TLabel
-          Left = 18
-          Top = 190
+          Left = 22
+          Top = 229
           Width = 50
           Height = 13
           Caption = 'Direcci'#243'n :'
+        end
+        object Label9: TLabel
+          Left = 16
+          Top = 184
+          Width = 57
+          Height = 13
+          Caption = 'Fecha alta: '
         end
         object DBEdit1: TDBEdit
           Left = 79
@@ -235,21 +233,36 @@ object FClientes: TFClientes
         end
         object DBMemo1: TDBMemo
           Left = 16
-          Top = 216
+          Top = 248
           Width = 421
-          Height = 89
+          Height = 57
           DataField = 'direccion'
           DataSource = dm.dsclientes
           TabOrder = 6
         end
         object btnMovimientos: TButton
-          Left = 741
-          Top = 216
-          Width = 121
-          Height = 89
+          Left = 464
+          Top = 32
+          Width = 385
+          Height = 273
           Caption = '&Ver Movimientos'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -20
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 7
           OnClick = btnMovimientosClick
+        end
+        object DBEdit6: TDBEdit
+          Left = 79
+          Top = 181
+          Width = 121
+          Height = 21
+          DataField = 'fecha_alta'
+          DataSource = dm.dsclientes
+          TabOrder = 8
         end
       end
     end
@@ -260,10 +273,6 @@ object FClientes: TFClientes
       Height = 38
       Align = alClient
       TabOrder = 2
-      ExplicitLeft = 0
-      ExplicitTop = 321
-      ExplicitWidth = 863
-      ExplicitHeight = 303
       object BtnGuardar: TButton
         Left = 171
         Top = 8

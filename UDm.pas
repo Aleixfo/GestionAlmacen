@@ -69,21 +69,8 @@ type
     // Componentes para la Query de recuperar los movimientos de un cliente
     qryMovimientosCliente: TMyQuery;
     dsMovimientosCliente: TDataSource;
-    MyQuery1: TMyQuery;
-    MyQuery1id: TIntegerField;
-    MyQuery1producto_id: TIntegerField;
-    MyQuery1tipo_movimiento: TStringField;
-    MyQuery1cantidad: TIntegerField;
-    MyQuery1proveedor_id: TIntegerField;
-    MyQuery1cliente_id: TIntegerField;
-    MyQuery1fecha_movimiento: TDateTimeField;
-    MyQuery1referencia: TStringField;
-    MyQuery1observaciones: TMemoField;
-    MyQuery1nomcli: TStringField;
-    MyQuery1nompro: TStringField;
-    MyQuery1import: TFloatField;
-    MyQuery1preucompra: TFloatField;
-    DataSource1: TDataSource;
+    qryMovimientosProveedor: TMyQuery;
+    dsMovimientosProveedor: TDataSource;
     qryMovimientosClienteid: TIntegerField;
     qryMovimientosClientefecha_movimiento: TDateTimeField;
     qryMovimientosClientetipo_movimiento: TStringField;
@@ -93,7 +80,16 @@ type
     qryMovimientosClientereferencia: TStringField;
     qryMovimientosClienteobservaciones: TMemoField;
     qryMovimientosClientetotal: TFloatField;
-    procedure MyQuery1CalcFields(DataSet: TDataSet);
+    qryMovimientosProveedorid: TIntegerField;
+    qryMovimientosProveedorfecha_movimiento: TDateTimeField;
+    qryMovimientosProveedortipo_movimiento: TStringField;
+    qryMovimientosProveedorproducto_precio: TFloatField;
+    qryMovimientosProveedorproducto_nombre: TStringField;
+    qryMovimientosProveedorcantidad: TIntegerField;
+    qryMovimientosProveedorreferencia: TStringField;
+    qryMovimientosProveedorobservaciones: TMemoField;
+    qryMovimientosProveedortotal: TFloatField;
+    procedure qryMovimientosProveedorCalcFields(DataSet: TDataSet);
     procedure qryMovimientosClientetotalGetText(Sender: TField;
       var Text: string; DisplayText: Boolean);
     procedure qryMovimientosClienteproducto_precioGetText(Sender: TField;
@@ -229,7 +225,7 @@ end;
 
 
 // Procedimiento que calcula el importe del movimiento
-procedure Tdm.MyQuery1CalcFields(DataSet: TDataSet);
+procedure Tdm.qryMovimientosProveedorCalcFields(DataSet: TDataSet);
 
 var
 
