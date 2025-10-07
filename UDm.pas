@@ -69,6 +69,22 @@ type
     // Componentes para la Query de recuperar los movimientos de un cliente
     qryMovimientosCliente: TMyQuery;
     dsMovimientosCliente: TDataSource;
+    MyQuery1: TMyQuery;
+    MyQuery1id: TIntegerField;
+    MyQuery1producto_id: TIntegerField;
+    MyQuery1tipo_movimiento: TStringField;
+    MyQuery1cantidad: TIntegerField;
+    MyQuery1proveedor_id: TIntegerField;
+    MyQuery1cliente_id: TIntegerField;
+    MyQuery1fecha_movimiento: TDateTimeField;
+    MyQuery1referencia: TStringField;
+    MyQuery1observaciones: TMemoField;
+    MyQuery1nomcli: TStringField;
+    MyQuery1nompro: TStringField;
+    MyQuery1import: TFloatField;
+    MyQuery1preucompra: TFloatField;
+    DataSource1: TDataSource;
+    procedure MyQuery1CalcFields(DataSet: TDataSet);
 
   private
     { Private declarations }
@@ -198,6 +214,35 @@ end;
 function Tdm.EstaConectado: Boolean;
 begin
   Result := db.Connected;
+end;
+
+procedure Tdm.MyQuery1CalcFields(DataSet: TDataSet);
+
+var
+
+mpreu: double;
+
+begin
+  if tproductos.Locate('id', myquery1producto_id.value, []) then
+  begin
+
+    if myquery1cliente_id.AsInteger <> 0 then
+    begin
+      mpreu := tproductosprecio_venta.AsFloat;
+    end
+    else
+    begin
+      mpreu := tproductosprecio_compra.Value;
+    end;
+
+    myquery1import.Value := mpreu * myquery1cantidad.Value;
+
+
+
+  end
+  else
+  myquery1import.Value := 0;
+
 end;
 
 end. // End final de la unidad

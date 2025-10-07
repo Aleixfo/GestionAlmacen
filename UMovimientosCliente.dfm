@@ -3,7 +3,7 @@ object FMovimientosCliente: TFMovimientosCliente
   Top = 0
   Caption = 'Movimientos del cliente'
   ClientHeight = 473
-  ClientWidth = 661
+  ClientWidth = 539
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,28 +17,29 @@ object FMovimientosCliente: TFMovimientosCliente
   object pnlGeneral: TPanel
     Left = 0
     Top = 0
-    Width = 661
+    Width = 539
     Height = 473
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 8
-    ExplicitTop = 176
+    ExplicitWidth = 691
     object GroupBox1: TGroupBox
       Left = 1
       Top = 256
-      Width = 659
+      Width = 537
       Height = 216
       Align = alBottom
       Caption = 'Movimientos del cliente '
       TabOrder = 0
       ExplicitLeft = 2
       ExplicitTop = 248
+      ExplicitWidth = 659
       object DBGrid1: TDBGrid
         Left = 2
         Top = 21
-        Width = 655
+        Width = 533
         Height = 193
         Align = alBottom
+        DataSource = dm.dsmovimientos
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -68,7 +69,6 @@ object FMovimientosCliente: TFMovimientosCliente
             Visible = True
           end
           item
-            Alignment = taRightJustify
             Expanded = False
             FieldName = 'cantidad'
             Title.Caption = 'Cant.'
@@ -93,8 +93,8 @@ object FMovimientosCliente: TFMovimientosCliente
       end
     end
     object btnAceptar: TButton
-      Left = 568
-      Top = 247
+      Left = 233
+      Top = 231
       Width = 75
       Height = 25
       Caption = 'Aceptar'
@@ -104,21 +104,20 @@ object FMovimientosCliente: TFMovimientosCliente
     object GroupBox2: TGroupBox
       Left = 1
       Top = 1
-      Width = 659
-      Height = 240
+      Width = 537
+      Height = 224
       Align = alTop
       Caption = 'Informaci'#243'n del Movimiento Seleccionado'
       TabOrder = 2
-      ExplicitLeft = 0
       object Label1: TLabel
-        Left = 24
+        Left = 47
         Top = 32
         Width = 36
         Height = 13
         Caption = 'Fecha: '
       end
       object Label2: TLabel
-        Left = 24
+        Left = 33
         Top = 66
         Width = 50
         Height = 13
@@ -132,7 +131,7 @@ object FMovimientosCliente: TFMovimientosCliente
         Caption = 'Referencia: '
       end
       object Label4: TLabel
-        Left = 272
+        Left = 295
         Top = 32
         Width = 27
         Height = 13
@@ -146,7 +145,7 @@ object FMovimientosCliente: TFMovimientosCliente
         Caption = 'Cantidad: '
       end
       object Label6: TLabel
-        Left = 272
+        Left = 291
         Top = 104
         Width = 31
         Height = 13
@@ -154,7 +153,7 @@ object FMovimientosCliente: TFMovimientosCliente
       end
       object Label7: TLabel
         Left = 24
-        Top = 152
+        Top = 136
         Width = 78
         Height = 13
         Caption = 'Observaciones: '
@@ -181,21 +180,21 @@ object FMovimientosCliente: TFMovimientosCliente
         TabOrder = 2
       end
       object DBEdit4: TDBEdit
-        Left = 352
+        Left = 384
         Top = 29
         Width = 121
         Height = 21
         TabOrder = 3
       end
       object DBEdit5: TDBEdit
-        Left = 352
+        Left = 384
         Top = 63
         Width = 121
         Height = 21
         TabOrder = 4
       end
       object DBEdit6: TDBEdit
-        Left = 352
+        Left = 384
         Top = 101
         Width = 121
         Height = 21
@@ -203,8 +202,8 @@ object FMovimientosCliente: TFMovimientosCliente
       end
       object DBMemo1: TDBMemo
         Left = 16
-        Top = 171
-        Width = 457
+        Top = 155
+        Width = 507
         Height = 53
         TabOrder = 6
       end

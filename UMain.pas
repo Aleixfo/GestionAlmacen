@@ -71,6 +71,10 @@ end;
 
 // Procedimiento con la logica que se ejecuta cuando se crea el formulario principal (UMain)
 procedure TFMain.FormCreate(Sender: TObject);
+
+var
+  WorkArea: TRect;
+
 begin
   // Probamos la conexión y carga de datos
   dm.ConectarBD;
@@ -80,6 +84,11 @@ begin
     dm.AbrirTablas;
     { ShowMessage('Conexión exitosa a la base de datos' + #13#10 +
                 'Tablas cargadas correctamente'); }
+
+    WorkArea := Screen.WorkAreaRect; // Área sin la barra de tareas
+    Left := (WorkArea.Width - Width) div 2;
+    Top := (WorkArea.Height - Height) div 2;
+
   end
   else
   begin

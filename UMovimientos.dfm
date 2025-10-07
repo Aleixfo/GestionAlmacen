@@ -62,7 +62,7 @@ object FMovimientos: TFMovimientos
     Top = 256
     Width = 814
     Height = 160
-    DataSource = dm.dsmovimientos
+    DataSource = dm.DataSource1
     TabOrder = 5
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -108,13 +108,31 @@ object FMovimientos: TFMovimientos
       item
         Expanded = False
         FieldName = 'referencia'
-        Width = 124
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'observaciones'
-        Width = 124
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'nomcli'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'nompro'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'import'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'preucompra'
         Visible = True
       end>
   end

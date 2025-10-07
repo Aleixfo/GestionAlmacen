@@ -123,10 +123,19 @@ object dm: Tdm
   end
   object tmovimientos: TMyTable
     TableName = 'movimientos'
+    MasterFields = 'id'
+    DetailFields = 'cliente_id'
+    MasterSource = dsclientes
     Connection = db
     Options.FieldOrigins = foNone
     Left = 56
     Top = 344
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        Value = nil
+      end>
     object tmovimientosid: TIntegerField
       FieldName = 'id'
     end
@@ -181,12 +190,92 @@ object dm: Tdm
   end
   object qryMovimientosCliente: TMyQuery
     Connection = db
-    Left = 248
-    Top = 136
+    Options.FieldOrigins = foNone
+    Left = 240
+    Top = 128
   end
   object dsMovimientosCliente: TDataSource
     DataSet = qryMovimientosCliente
-    Left = 328
-    Top = 136
+    Left = 360
+    Top = 128
+  end
+  object MyQuery1: TMyQuery
+    Connection = db
+    SQL.Strings = (
+      'select * from movimientos')
+    OnCalcFields = MyQuery1CalcFields
+    Options.FieldOrigins = foNone
+    Left = 264
+    Top = 248
+    object MyQuery1id: TIntegerField
+      FieldName = 'id'
+    end
+    object MyQuery1producto_id: TIntegerField
+      FieldName = 'producto_id'
+    end
+    object MyQuery1tipo_movimiento: TStringField
+      FieldName = 'tipo_movimiento'
+      FixedChar = True
+      Size = 7
+    end
+    object MyQuery1cantidad: TIntegerField
+      FieldName = 'cantidad'
+    end
+    object MyQuery1proveedor_id: TIntegerField
+      FieldName = 'proveedor_id'
+    end
+    object MyQuery1cliente_id: TIntegerField
+      FieldName = 'cliente_id'
+    end
+    object MyQuery1fecha_movimiento: TDateTimeField
+      FieldName = 'fecha_movimiento'
+    end
+    object MyQuery1referencia: TStringField
+      FieldName = 'referencia'
+      Size = 100
+    end
+    object MyQuery1observaciones: TMemoField
+      FieldName = 'observaciones'
+      BlobType = ftMemo
+    end
+    object MyQuery1nomcli: TStringField
+      FieldKind = fkLookup
+      FieldName = 'nomcli'
+      LookupDataSet = tclientes
+      LookupKeyFields = 'id'
+      LookupResultField = 'nombre'
+      KeyFields = 'cliente_id'
+      Size = 40
+      Lookup = True
+    end
+    object MyQuery1nompro: TStringField
+      FieldKind = fkLookup
+      FieldName = 'nompro'
+      LookupDataSet = tproveedores
+      LookupKeyFields = 'id'
+      LookupResultField = 'nombre'
+      KeyFields = 'proveedor_id'
+      Size = 40
+      Lookup = True
+    end
+    object MyQuery1import: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'import'
+      Calculated = True
+    end
+    object MyQuery1preucompra: TFloatField
+      FieldKind = fkLookup
+      FieldName = 'preucompra'
+      LookupDataSet = tproductos
+      LookupKeyFields = 'id'
+      LookupResultField = 'precio_compra'
+      KeyFields = 'producto_id'
+      Lookup = True
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = MyQuery1
+    Left = 336
+    Top = 248
   end
 end

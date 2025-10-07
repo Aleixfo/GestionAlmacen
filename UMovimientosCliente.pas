@@ -59,13 +59,13 @@ begin
   Caption := 'Movimientos del Cliente: ' + FClienteNombre;
 
   // Configurar DataSource del grid
-  DBGrid1.DataSource := dm.dsMovimientosCliente;
+ // DBGrid1.DataSource := dm.dsMovimientosCliente;
 
   // Configurar los controles de edición
   ConfigurarControles;
 
   // Cargar los movimientos
-  CargarMovimientos;
+  //CargarMovimientos;
 end;
 
 procedure TFMovimientosCliente.ConfigurarControles;

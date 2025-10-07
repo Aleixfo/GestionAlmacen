@@ -40,8 +40,8 @@ implementation
 procedure TFMovimientos.FormShow(Sender: TObject);
 begin
   // ¡IMPORTANTE! Asignar DataSources a los componentes
-  DBGrid1.DataSource := dm.dsmovimientos;
-  DBNavigator1.DataSource := dm.dsmovimientos;
+  //DBGrid1.DataSource := dm.dsmovimientos;
+  //DBNavigator1.DataSource := dm.dsmovimientos;
 
   // Asegurar que la tabla está abierta
   if not dm.tmovimientos.Active then
