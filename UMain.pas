@@ -21,6 +21,7 @@ type
     procedure BtnProveedoresClick(Sender: TObject);
     procedure BtnProductosClick(Sender: TObject);
     procedure BtnMovimientosClick(Sender: TObject);
+
   private
     { Private declarations }
   public
@@ -35,6 +36,34 @@ implementation
 {$R *.dfm}
 
 uses UClientes, UProveedores, UProductos, UMovimientos;
+
+// Procedimiento con la logica que se ejecuta cuando se crea el formulario principal (UMain)
+procedure TFMain.FormCreate(Sender: TObject);
+
+var
+  WorkArea: TRect;
+
+begin
+  // Probamos la conexión y carga de datos
+  dm.ConectarBD;
+
+  if dm.EstaConectado then
+  begin
+    dm.AbrirTablas;
+    { ShowMessage('Conexión exitosa a la base de datos' + #13#10 +
+                'Tablas cargadas correctamente'); }
+
+    // Logica para centrar el form inicial enmedio de la pantalla
+    WorkArea := Screen.WorkAreaRect; // Área sin la barra de tareas
+    Left := (WorkArea.Width - Width) div 2;
+    Top := (WorkArea.Height - Height) div 2;
+
+  end
+  else
+  begin
+    ShowMessage('No se pudo conectar a la base de datos');
+  end;
+end;
 
 // Procedimiento de la logica al pulsar el boton de clientes (Boton Clientes --> OnClick)
 procedure TFMain.BtnClientesClick(Sender: TObject);
@@ -67,33 +96,6 @@ begin
   if not Assigned(FProductos) then
     FMovimientos := TFMovimientos.Create(Self);
   FMovimientos.Show;
-end;
-
-// Procedimiento con la logica que se ejecuta cuando se crea el formulario principal (UMain)
-procedure TFMain.FormCreate(Sender: TObject);
-
-var
-  WorkArea: TRect;
-
-begin
-  // Probamos la conexión y carga de datos
-  dm.ConectarBD;
-
-  if dm.EstaConectado then
-  begin
-    dm.AbrirTablas;
-    { ShowMessage('Conexión exitosa a la base de datos' + #13#10 +
-                'Tablas cargadas correctamente'); }
-
-    WorkArea := Screen.WorkAreaRect; // Área sin la barra de tareas
-    Left := (WorkArea.Width - Width) div 2;
-    Top := (WorkArea.Height - Height) div 2;
-
-  end
-  else
-  begin
-    ShowMessage('No se pudo conectar a la base de datos');
-  end;
 end;
 
 end.

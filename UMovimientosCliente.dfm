@@ -21,7 +21,6 @@ object FMovimientosCliente: TFMovimientosCliente
     Height = 473
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 691
     object GroupBox1: TGroupBox
       Left = 1
       Top = 256
@@ -30,9 +29,6 @@ object FMovimientosCliente: TFMovimientosCliente
       Align = alBottom
       Caption = 'Movimientos del cliente '
       TabOrder = 0
-      ExplicitLeft = 2
-      ExplicitTop = 248
-      ExplicitWidth = 659
       object DBGrid1: TDBGrid
         Left = 2
         Top = 21
@@ -163,6 +159,8 @@ object FMovimientosCliente: TFMovimientosCliente
         Top = 29
         Width = 121
         Height = 21
+        DataField = 'fecha_movimiento'
+        DataSource = dm.dsmovimientos
         TabOrder = 0
       end
       object DBEdit2: TDBEdit
@@ -170,6 +168,8 @@ object FMovimientosCliente: TFMovimientosCliente
         Top = 63
         Width = 121
         Height = 21
+        DataField = 'producto_id'
+        DataSource = dm.dsmovimientos
         TabOrder = 1
       end
       object DBEdit3: TDBEdit
@@ -177,6 +177,8 @@ object FMovimientosCliente: TFMovimientosCliente
         Top = 101
         Width = 121
         Height = 21
+        DataField = 'referencia'
+        DataSource = dm.dsmovimientos
         TabOrder = 2
       end
       object DBEdit4: TDBEdit
@@ -184,6 +186,8 @@ object FMovimientosCliente: TFMovimientosCliente
         Top = 29
         Width = 121
         Height = 21
+        DataField = 'tipo_movimiento'
+        DataSource = dm.dsmovimientos
         TabOrder = 3
       end
       object DBEdit5: TDBEdit
@@ -191,21 +195,18 @@ object FMovimientosCliente: TFMovimientosCliente
         Top = 63
         Width = 121
         Height = 21
+        DataField = 'cantidad'
+        DataSource = dm.dsmovimientos
         TabOrder = 4
-      end
-      object DBEdit6: TDBEdit
-        Left = 384
-        Top = 101
-        Width = 121
-        Height = 21
-        TabOrder = 5
       end
       object DBMemo1: TDBMemo
         Left = 16
         Top = 155
         Width = 507
         Height = 53
-        TabOrder = 6
+        DataField = 'observaciones'
+        DataSource = dm.dsmovimientos
+        TabOrder = 5
       end
     end
   end

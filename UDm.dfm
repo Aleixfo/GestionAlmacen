@@ -16,7 +16,7 @@ object dm: Tdm
     Connection = db
     Options.FieldOrigins = foNone
     Left = 56
-    Top = 200
+    Top = 192
     object tproveedoresid: TIntegerField
       FieldName = 'id'
     end
@@ -51,7 +51,7 @@ object dm: Tdm
     Connection = db
     Options.FieldOrigins = foNone
     Left = 56
-    Top = 128
+    Top = 120
     object tclientesid: TIntegerField
       FieldName = 'id'
     end
@@ -86,7 +86,7 @@ object dm: Tdm
     Connection = db
     Options.FieldOrigins = foNone
     Left = 56
-    Top = 272
+    Top = 264
     object tproductosid: TIntegerField
       FieldName = 'id'
     end
@@ -129,13 +129,7 @@ object dm: Tdm
     Connection = db
     Options.FieldOrigins = foNone
     Left = 56
-    Top = 344
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'id'
-        Value = nil
-      end>
+    Top = 336
     object tmovimientosid: TIntegerField
       FieldName = 'id'
     end
@@ -171,33 +165,33 @@ object dm: Tdm
   object dsproveedores: TDataSource
     DataSet = tproveedores
     Left = 136
-    Top = 200
+    Top = 192
   end
   object dsclientes: TDataSource
     DataSet = tclientes
     Left = 136
-    Top = 128
+    Top = 120
   end
   object dsproductos: TDataSource
     DataSet = tproductos
     Left = 136
-    Top = 272
+    Top = 264
   end
   object dsmovimientos: TDataSource
     DataSet = tmovimientos
-    Left = 144
-    Top = 344
+    Left = 136
+    Top = 336
   end
   object qryMovimientosCliente: TMyQuery
     Connection = db
     Options.FieldOrigins = foNone
-    Left = 240
-    Top = 128
+    Left = 296
+    Top = 56
   end
   object dsMovimientosCliente: TDataSource
     DataSet = qryMovimientosCliente
-    Left = 360
-    Top = 128
+    Left = 424
+    Top = 56
   end
   object MyQuery1: TMyQuery
     Connection = db
@@ -205,8 +199,8 @@ object dm: Tdm
       'select * from movimientos')
     OnCalcFields = MyQuery1CalcFields
     Options.FieldOrigins = foNone
-    Left = 264
-    Top = 248
+    Left = 456
+    Top = 352
     object MyQuery1id: TIntegerField
       FieldName = 'id'
     end
@@ -275,7 +269,7 @@ object dm: Tdm
   end
   object DataSource1: TDataSource
     DataSet = MyQuery1
-    Left = 336
-    Top = 248
+    Left = 536
+    Top = 352
   end
 end

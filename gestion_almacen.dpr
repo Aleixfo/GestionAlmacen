@@ -7,7 +7,8 @@ uses
   UClientes in 'UClientes.pas' {FClientes},
   UProveedores in 'UProveedores.pas' {FProveedores},
   UProductos in 'UProductos.pas' {FProductos},
-  UMovimientos in 'UMovimientos.pas' {FMovimientos};
+  UMovimientos in 'UMovimientos.pas' {FMovimientos},
+  UMovimientosCliente in 'UMovimientosCliente.pas' {FMovimientosCliente};
 
 {$R *.res}
 
@@ -20,5 +21,6 @@ begin
   Application.CreateForm(TFProveedores, FProveedores);
   Application.CreateForm(TFProductos, FProductos);
   Application.CreateForm(TFMovimientos, FMovimientos);
+  Application.CreateForm(TFMovimientosCliente, FMovimientosCliente);
   Application.Run;
 end.

@@ -26,7 +26,6 @@ type
     DBEdit3: TDBEdit;
     DBEdit4: TDBEdit;
     DBEdit5: TDBEdit;
-    DBEdit6: TDBEdit;
     DBMemo1: TDBMemo;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnAceptarClick(Sender: TObject);
@@ -59,13 +58,13 @@ begin
   Caption := 'Movimientos del Cliente: ' + FClienteNombre;
 
   // Configurar DataSource del grid
- // DBGrid1.DataSource := dm.dsMovimientosCliente;
+  DBGrid1.DataSource := dm.dsMovimientosCliente;
 
   // Configurar los controles de edición
   ConfigurarControles;
 
   // Cargar los movimientos
-  //CargarMovimientos;
+  CargarMovimientos;
 end;
 
 procedure TFMovimientosCliente.ConfigurarControles;
@@ -86,9 +85,6 @@ begin
   DBEdit5.DataSource := dm.dsMovimientosCliente;
   DBEdit5.DataField := 'cantidad';
 
-  DBEdit6.DataSource := dm.dsMovimientosCliente;
-  DBEdit6.DataField := 'total';
-
   DBMemo1.DataSource := dm.dsMovimientosCliente;
   DBMemo1.DataField := 'observaciones';
 
@@ -98,7 +94,6 @@ begin
   DBEdit3.ReadOnly := True;
   DBEdit4.ReadOnly := True;
   DBEdit5.ReadOnly := True;
-  DBEdit6.ReadOnly := True;
   DBMemo1.ReadOnly := True;
 end;
 
@@ -107,6 +102,8 @@ begin
   with dm.qryMovimientosCliente do
   begin
     Close;
+
+    {
     SQL.Clear;
     SQL.Text :=
       'SELECT m.id, ' +
@@ -121,7 +118,10 @@ begin
       'JOIN productos p ON m.producto_id = p.id ' +
       'WHERE m.cliente_id = :cliente_id ' +
       'ORDER BY m.fecha_movimiento DESC';
+    }
 
+    // Asignar el parámetro :cliente_id - IMPORTANTE: usa el nombre exacto del parámetro
+    // Si en la query gráfica usaste :cliente_id, así se llama el parámetro
     ParamByName('cliente_id').Value := FClienteID;
 
     try

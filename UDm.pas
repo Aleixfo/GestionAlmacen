@@ -187,10 +187,6 @@ begin
       Inc(TablasAbiertas);
     end;
 
-    // Opcional: Mostrar éxito
-    // if TablasAbiertas > 0 then
-    //   WriteLn(Format('Se abrieron %d tablas', [TablasAbiertas]));
-
   except
     on E: Exception do
     begin
@@ -236,8 +232,6 @@ begin
     end;
 
     myquery1import.Value := mpreu * myquery1cantidad.Value;
-
-
 
   end
   else
