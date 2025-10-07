@@ -3,7 +3,7 @@ object FMovimientosCliente: TFMovimientosCliente
   Top = 0
   Caption = 'Movimientos del cliente'
   ClientHeight = 473
-  ClientWidth = 539
+  ClientWidth = 537
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,25 +17,27 @@ object FMovimientosCliente: TFMovimientosCliente
   object pnlGeneral: TPanel
     Left = 0
     Top = 0
-    Width = 539
+    Width = 537
     Height = 473
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 539
     object GroupBox1: TGroupBox
       Left = 1
       Top = 256
-      Width = 537
+      Width = 535
       Height = 216
       Align = alBottom
       Caption = 'Movimientos del cliente '
       TabOrder = 0
+      ExplicitWidth = 537
       object DBGrid1: TDBGrid
         Left = 2
         Top = 21
-        Width = 533
+        Width = 531
         Height = 193
         Align = alBottom
-        DataSource = dm.dsmovimientos
+        DataSource = dm.dsMovimientosCliente
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -45,30 +47,36 @@ object FMovimientosCliente: TFMovimientosCliente
         Columns = <
           item
             Expanded = False
-            FieldName = 'fecha_movimiento'
-            Title.Caption = 'Fecha'
-            Width = 80
+            FieldName = 'id'
+            Title.Caption = 'ID'
+            Width = 32
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'tipo_movimiento'
-            Title.Caption = 'Tipo'
+            FieldName = 'fecha_movimiento'
+            Title.Caption = 'Fecha'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'producto_precio'
+            Title.Caption = 'Precio P.'
             Width = 60
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'producto_nombre'
-            Title.Caption = 'Producto'
-            Width = 150
+            Title.Caption = 'Nombre P.'
+            Width = 108
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'cantidad'
             Title.Caption = 'Cant.'
-            Width = 50
+            Width = 32
             Visible = True
           end
           item
@@ -79,69 +87,61 @@ object FMovimientosCliente: TFMovimientosCliente
             Visible = True
           end
           item
-            Alignment = taRightJustify
             Expanded = False
             FieldName = 'total'
-            Title.Caption = 'Total'
-            Width = 70
+            Title.Caption = 'Imp.'
+            Width = 53
             Visible = True
           end>
       end
     end
-    object btnAceptar: TButton
-      Left = 233
-      Top = 231
-      Width = 75
-      Height = 25
-      Caption = 'Aceptar'
-      ModalResult = 1
-      TabOrder = 1
-    end
     object GroupBox2: TGroupBox
       Left = 1
       Top = 1
-      Width = 537
-      Height = 224
+      Width = 535
+      Height = 249
       Align = alTop
       Caption = 'Informaci'#243'n del Movimiento Seleccionado'
-      TabOrder = 2
+      TabOrder = 1
+      ExplicitLeft = 3
+      ExplicitWidth = 537
       object Label1: TLabel
-        Left = 47
+        Left = 66
         Top = 32
         Width = 36
         Height = 13
         Caption = 'Fecha: '
       end
       object Label2: TLabel
-        Left = 33
+        Left = 52
         Top = 66
         Width = 50
         Height = 13
         Caption = 'Producto: '
       end
       object Label3: TLabel
-        Left = 24
+        Left = 43
         Top = 104
         Width = 59
         Height = 13
         Caption = 'Referencia: '
       end
       object Label4: TLabel
-        Left = 295
+        Left = 272
         Top = 32
-        Width = 27
+        Width = 74
         Height = 13
-        Caption = 'Tipo: '
+        Caption = 'Precio compra: '
       end
       object Label5: TLabel
-        Left = 272
+        Left = 296
         Top = 66
         Width = 50
         Height = 13
         Caption = 'Cantidad: '
       end
       object Label6: TLabel
-        Left = 291
+        Left = 315
         Top = 104
         Width = 31
         Height = 13
@@ -154,59 +154,63 @@ object FMovimientosCliente: TFMovimientosCliente
         Height = 13
         Caption = 'Observaciones: '
       end
-      object DBEdit1: TDBEdit
-        Left = 112
-        Top = 29
-        Width = 121
-        Height = 21
+      object DBText1: TDBText
+        Left = 136
+        Top = 32
+        Width = 113
+        Height = 17
         DataField = 'fecha_movimiento'
-        DataSource = dm.dsmovimientos
-        TabOrder = 0
+        DataSource = dm.dsMovimientosCliente
       end
-      object DBEdit2: TDBEdit
-        Left = 112
-        Top = 63
-        Width = 121
-        Height = 21
-        DataField = 'producto_id'
-        DataSource = dm.dsmovimientos
-        TabOrder = 1
+      object DBText2: TDBText
+        Left = 136
+        Top = 66
+        Width = 113
+        Height = 17
+        DataField = 'producto_nombre'
+        DataSource = dm.dsMovimientosCliente
       end
-      object DBEdit3: TDBEdit
-        Left = 112
-        Top = 101
-        Width = 121
-        Height = 21
+      object DBText3: TDBText
+        Left = 136
+        Top = 104
+        Width = 113
+        Height = 17
         DataField = 'referencia'
-        DataSource = dm.dsmovimientos
-        TabOrder = 2
+        DataSource = dm.dsMovimientosCliente
       end
-      object DBEdit4: TDBEdit
-        Left = 384
-        Top = 29
-        Width = 121
-        Height = 21
-        DataField = 'tipo_movimiento'
-        DataSource = dm.dsmovimientos
-        TabOrder = 3
+      object DBText4: TDBText
+        Left = 392
+        Top = 32
+        Width = 81
+        Height = 17
+        DataField = 'producto_precio'
+        DataSource = dm.dsMovimientosCliente
       end
-      object DBEdit5: TDBEdit
-        Left = 384
-        Top = 63
-        Width = 121
-        Height = 21
+      object DBText5: TDBText
+        Left = 392
+        Top = 66
+        Width = 81
+        Height = 17
         DataField = 'cantidad'
-        DataSource = dm.dsmovimientos
-        TabOrder = 4
+        DataSource = dm.dsMovimientosCliente
+      end
+      object DBText6: TDBText
+        Left = 392
+        Top = 104
+        Width = 81
+        Height = 17
+        DataField = 'total'
+        DataSource = dm.dsMovimientosCliente
       end
       object DBMemo1: TDBMemo
         Left = 16
         Top = 155
         Width = 507
-        Height = 53
+        Height = 78
         DataField = 'observaciones'
         DataSource = dm.dsmovimientos
-        TabOrder = 5
+        ReadOnly = True
+        TabOrder = 0
       end
     end
   end

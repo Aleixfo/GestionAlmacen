@@ -184,9 +184,66 @@ object dm: Tdm
   end
   object qryMovimientosCliente: TMyQuery
     Connection = db
+    SQL.Strings = (
+      'SELECT m.id,'
+      'm.fecha_movimiento,'
+      'm.tipo_movimiento,'
+      'p.precio_venta as producto_precio,'
+      'p.nombre as producto_nombre,'
+      'm.cantidad,'
+      'm.referencia,'
+      'm.observaciones, '
+      '(p.precio_venta * m.cantidad) as total'
+      'FROM movimientos m'
+      'JOIN productos p'
+      'ON m.producto_id = p.id'
+      'WHERE m.cliente_id = :cliente_id'
+      'ORDER BY m.fecha_movimiento DESC')
     Options.FieldOrigins = foNone
+    MasterSource = dsclientes
     Left = 296
     Top = 56
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'cliente_id'
+        ParamType = ptInput
+        Value = nil
+      end>
+    object qryMovimientosClienteid: TIntegerField
+      FieldName = 'id'
+    end
+    object qryMovimientosClientefecha_movimiento: TDateTimeField
+      FieldName = 'fecha_movimiento'
+    end
+    object qryMovimientosClientetipo_movimiento: TStringField
+      FieldName = 'tipo_movimiento'
+      FixedChar = True
+      Size = 7
+    end
+    object qryMovimientosClienteproducto_precio: TFloatField
+      FieldName = 'producto_precio'
+      OnGetText = qryMovimientosClienteproducto_precioGetText
+    end
+    object qryMovimientosClienteproducto_nombre: TStringField
+      FieldName = 'producto_nombre'
+      Size = 100
+    end
+    object qryMovimientosClientecantidad: TIntegerField
+      FieldName = 'cantidad'
+    end
+    object qryMovimientosClientereferencia: TStringField
+      FieldName = 'referencia'
+      Size = 100
+    end
+    object qryMovimientosClienteobservaciones: TMemoField
+      FieldName = 'observaciones'
+      BlobType = ftMemo
+    end
+    object qryMovimientosClientetotal: TFloatField
+      FieldName = 'total'
+      OnGetText = qryMovimientosClientetotalGetText
+    end
   end
   object dsMovimientosCliente: TDataSource
     DataSet = qryMovimientosCliente
@@ -199,8 +256,8 @@ object dm: Tdm
       'select * from movimientos')
     OnCalcFields = MyQuery1CalcFields
     Options.FieldOrigins = foNone
-    Left = 456
-    Top = 352
+    Left = 296
+    Top = 128
     object MyQuery1id: TIntegerField
       FieldName = 'id'
     end
@@ -269,7 +326,7 @@ object dm: Tdm
   end
   object DataSource1: TDataSource
     DataSet = MyQuery1
-    Left = 536
-    Top = 352
+    Left = 424
+    Top = 128
   end
 end

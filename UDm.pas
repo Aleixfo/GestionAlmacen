@@ -84,7 +84,20 @@ type
     MyQuery1import: TFloatField;
     MyQuery1preucompra: TFloatField;
     DataSource1: TDataSource;
+    qryMovimientosClienteid: TIntegerField;
+    qryMovimientosClientefecha_movimiento: TDateTimeField;
+    qryMovimientosClientetipo_movimiento: TStringField;
+    qryMovimientosClienteproducto_precio: TFloatField;
+    qryMovimientosClienteproducto_nombre: TStringField;
+    qryMovimientosClientecantidad: TIntegerField;
+    qryMovimientosClientereferencia: TStringField;
+    qryMovimientosClienteobservaciones: TMemoField;
+    qryMovimientosClientetotal: TFloatField;
     procedure MyQuery1CalcFields(DataSet: TDataSet);
+    procedure qryMovimientosClientetotalGetText(Sender: TField;
+      var Text: string; DisplayText: Boolean);
+    procedure qryMovimientosClienteproducto_precioGetText(Sender: TField;
+      var Text: string; DisplayText: Boolean);
 
   private
     { Private declarations }
@@ -149,6 +162,8 @@ begin
   db.Connected := False;
 end;
 
+
+
 // Procedimiento de abrir todas las tablas a la vez
 procedure Tdm.AbrirTablas;
 var
@@ -212,13 +227,15 @@ begin
   Result := db.Connected;
 end;
 
+
+// Procedimiento que calcula el importe del movimiento
 procedure Tdm.MyQuery1CalcFields(DataSet: TDataSet);
 
 var
 
 mpreu: double;
 
-begin
+begin {
   if tproductos.Locate('id', myquery1producto_id.value, []) then
   begin
 
@@ -235,8 +252,26 @@ begin
 
   end
   else
-  myquery1import.Value := 0;
+  myquery1import.Value := 0;  }
 
+end;
+
+procedure Tdm.qryMovimientosClienteproducto_precioGetText(Sender: TField;
+  var Text: string; DisplayText: Boolean);
+begin
+  if not Sender.IsNull then
+    Text := Format('%.2f €', [Sender.AsFloat])
+  else
+    Text := '0.00 €';
+end;
+
+procedure Tdm.qryMovimientosClientetotalGetText(Sender: TField;
+  var Text: string; DisplayText: Boolean);
+begin
+  if not Sender.IsNull then
+    Text := Format('%.2f €', [Sender.AsFloat])
+  else
+    Text := '0.00 €';
 end;
 
 end. // End final de la unidad
