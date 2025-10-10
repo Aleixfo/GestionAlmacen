@@ -21,7 +21,6 @@ object FMovimientosCliente: TFMovimientosCliente
     Height = 473
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 539
     object GroupBox1: TGroupBox
       Left = 1
       Top = 256
@@ -30,7 +29,6 @@ object FMovimientosCliente: TFMovimientosCliente
       Align = alBottom
       Caption = 'Movimientos del cliente '
       TabOrder = 0
-      ExplicitWidth = 537
       object DBGrid1: TDBGrid
         Left = 2
         Top = 21
@@ -103,8 +101,6 @@ object FMovimientosCliente: TFMovimientosCliente
       Align = alTop
       Caption = 'Informaci'#243'n del Movimiento Seleccionado'
       TabOrder = 1
-      ExplicitLeft = 3
-      ExplicitWidth = 537
       object Label1: TLabel
         Left = 66
         Top = 32

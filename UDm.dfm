@@ -7,8 +7,8 @@ object dm: Tdm
     Username = 'root'
     Server = 'localhost'
     Connected = True
-    Left = 96
-    Top = 48
+    Left = 24
+    Top = 24
     EncryptedPassword = '8DFF90FF90FF8BFF'
   end
   object tproveedores: TMyTable
@@ -128,8 +128,8 @@ object dm: Tdm
     MasterSource = dsclientes
     Connection = db
     Options.FieldOrigins = foNone
-    Left = 416
-    Top = 144
+    Left = 312
+    Top = 160
     object tmovimientosid: TIntegerField
       FieldName = 'id'
     end
@@ -179,8 +179,8 @@ object dm: Tdm
   end
   object dsmovimientos: TDataSource
     DataSet = tmovimientos
-    Left = 544
-    Top = 144
+    Left = 440
+    Top = 160
   end
   object qryMovimientosCliente: TMyQuery
     Connection = db
@@ -201,8 +201,8 @@ object dm: Tdm
       'ORDER BY m.fecha_movimiento DESC')
     Options.FieldOrigins = foNone
     MasterSource = dsclientes
-    Left = 416
-    Top = 216
+    Left = 312
+    Top = 232
     ParamData = <
       item
         DataType = ftInteger
@@ -247,8 +247,8 @@ object dm: Tdm
   end
   object dsMovimientosCliente: TDataSource
     DataSet = qryMovimientosCliente
-    Left = 544
-    Top = 216
+    Left = 440
+    Top = 232
   end
   object qryMovimientosProveedor: TMyQuery
     Connection = db
@@ -256,6 +256,7 @@ object dm: Tdm
       'SELECT m.id,'
       'm.fecha_movimiento,'
       'm.tipo_movimiento,'
+      'm.proveedor_id as id_proveedor,'
       'p.precio_compra as producto_precio,'
       'p.nombre as producto_nombre,'
       'm.cantidad,'
@@ -271,8 +272,8 @@ object dm: Tdm
     Options.FieldOrigins = foNone
     MasterSource = dsproveedores
     DetailFields = 'proveedor_id'
-    Left = 416
-    Top = 288
+    Left = 312
+    Top = 304
     ParamData = <
       item
         DataType = ftInteger
@@ -312,10 +313,106 @@ object dm: Tdm
     object qryMovimientosProveedortotal: TFloatField
       FieldName = 'total'
     end
+    object qryMovimientosProveedorid_proveedor: TIntegerField
+      FieldName = 'id_proveedor'
+    end
+    object qryMovimientosProveedornompro: TStringField
+      FieldKind = fkLookup
+      FieldName = 'nompro'
+      LookupDataSet = tproveedores
+      LookupKeyFields = 'id'
+      LookupResultField = 'nombre'
+      KeyFields = 'id_proveedor'
+      Size = 40
+      Lookup = True
+    end
   end
   object dsMovimientosProveedor: TDataSource
     DataSet = qryMovimientosProveedor
-    Left = 544
-    Top = 288
+    Left = 440
+    Top = 304
+  end
+  object qryReferencias: TMyQuery
+    Connection = db
+    SQL.Strings = (
+      'SELECT DISTINCT referencia'
+      'FROM movimientos'
+      'WHERE referencia IS NOT NULL'
+      'AND referencia != '#39#39#39#39
+      'ORDER BY referencia DESC')
+    Options.FieldOrigins = foNone
+    Left = 328
+    Top = 48
+  end
+  object qryDetallePedido: TMyQuery
+    Connection = db
+    SQL.Strings = (
+      'SELECT '
+      '  p.codigo,'
+      '  p.nombre as producto,'
+      '  m.cantidad,'
+      '  m.tipo_movimiento,'
+      '  p.precio_compra,'
+      '  p.precio_venta,'
+      '  CASE WHEN m.tipo_movimiento = '#39'ENTRADA'#39' '
+      '       THEN m.cantidad * p.precio_compra'
+      '       ELSE m.cantidad * p.precio_venta'
+      '  END as total_linea,'
+      '  prov.nombre as proveedor,'
+      '  cli.nombre as cliente'
+      'FROM movimientos m'
+      'INNER JOIN productos p ON m.producto_id = p.id'
+      'LEFT JOIN proveedores prov ON m.proveedor_id = prov.id'
+      'LEFT JOIN clientes cli ON m.cliente_id = cli.id'
+      'WHERE m.referencia = :referencia'
+      'ORDER BY p.nombre')
+    Options.FieldOrigins = foNone
+    Left = 328
+    Top = 432
+    ParamData = <
+      item
+        DataType = ftString
+        Name = 'referencia'
+        ParamType = ptInput
+        Value = nil
+      end>
+    object qryDetallePedidocodigo: TStringField
+      FieldName = 'codigo'
+      Size = 50
+    end
+    object qryDetallePedidoproducto: TStringField
+      FieldName = 'producto'
+      Size = 100
+    end
+    object qryDetallePedidocantidad: TIntegerField
+      FieldName = 'cantidad'
+    end
+    object qryDetallePedidotipo_movimiento: TStringField
+      FieldName = 'tipo_movimiento'
+      FixedChar = True
+      Size = 7
+    end
+    object qryDetallePedidoprecio_compra: TFloatField
+      FieldName = 'precio_compra'
+    end
+    object qryDetallePedidoprecio_venta: TFloatField
+      FieldName = 'precio_venta'
+    end
+    object qryDetallePedidototal_linea: TFloatField
+      FieldName = 'total_linea'
+    end
+    object qryDetallePedidoproveedor: TStringField
+      FieldName = 'proveedor'
+      Size = 100
+    end
+    object qryDetallePedidocliente: TStringField
+      FieldName = 'cliente'
+      Size = 100
+    end
+  end
+  object dsDetallePedido: TDataSource
+    DataSet = qryDetallePedido
+    Left = 440
+    Top = 432
   end
 end

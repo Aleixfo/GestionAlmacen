@@ -47,8 +47,8 @@ type
     procedure FormShow(Sender: TObject); // Logica al cargar el formulario de clientes
     procedure BtnNuevoClick(Sender: TObject); // Boton de nuevo cliente
     procedure BtnEditarClick(Sender: TObject); // Boton de editar cliente
-    procedure BtnEliminarClick(Sender: TObject);
-    procedure btnMovimientosClick(Sender: TObject); // Boton de eliminar cliente
+    procedure BtnEliminarClick(Sender: TObject); // Boton de eliminar cliente
+    procedure btnMovimientosClick(Sender: TObject);
 
   private
     { Private declarations }

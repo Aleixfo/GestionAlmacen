@@ -8,7 +8,8 @@ uses
   UProveedores in 'UProveedores.pas' {FProveedores},
   UProductos in 'UProductos.pas' {FProductos},
   UMovimientos in 'UMovimientos.pas' {FMovimientos},
-  UMovimientosCliente in 'UMovimientosCliente.pas' {FMovimientosCliente};
+  UMovimientosCliente in 'UMovimientosCliente.pas' {FMovimientosCliente},
+  UMovimientosProveedor in 'UMovimientosProveedor.pas' {FMovimientosProveedor};
 
 {$R *.res}
 
@@ -22,5 +23,6 @@ begin
   Application.CreateForm(TFProductos, FProductos);
   Application.CreateForm(TFMovimientos, FMovimientos);
   Application.CreateForm(TFMovimientosCliente, FMovimientosCliente);
+  Application.CreateForm(TFMovimientosProveedor, FMovimientosProveedor);
   Application.Run;
 end.

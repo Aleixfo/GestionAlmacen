@@ -14,6 +14,7 @@ type
     BtnProveedores: TButton;
     BtnProductos: TButton;
     BtnMovimientos: TButton;
+    btnPedidos: TButton;
 
     // Procedimientos
     procedure FormCreate(Sender: TObject);
@@ -21,6 +22,7 @@ type
     procedure BtnProveedoresClick(Sender: TObject);
     procedure BtnProductosClick(Sender: TObject);
     procedure BtnMovimientosClick(Sender: TObject);
+    procedure btnPedidosClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -35,7 +37,7 @@ implementation
 
 {$R *.dfm}
 
-uses UClientes, UProveedores, UProductos, UMovimientos;
+uses UClientes, UProveedores, UProductos, UMovimientos, UPedidos;
 
 // Procedimiento con la logica que se ejecuta cuando se crea el formulario principal (UMain)
 procedure TFMain.FormCreate(Sender: TObject);
@@ -96,6 +98,13 @@ begin
   if not Assigned(FProductos) then
     FMovimientos := TFMovimientos.Create(Self);
   FMovimientos.Show;
+end;
+
+procedure TFMain.btnPedidosClick(Sender: TObject);
+begin
+  if not Assigned(FPedidos) then
+    FPedidos := TFPedidos.Create(Self);
+  FPedidos.Show;
 end;
 
 end.
