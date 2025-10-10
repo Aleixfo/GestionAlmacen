@@ -31,52 +31,42 @@ object FProductos: TFProductos
       Height = 47
       Align = alClient
       TabOrder = 0
-      ExplicitTop = 241
-      ExplicitHeight = 48
-      object btnEditar: TButton
-        Left = 95
-        Top = 8
+      ExplicitHeight = 41
+      object btnDesactivar: TButton
+        Left = 280
+        Top = 6
         Width = 75
         Height = 25
-        Caption = 'Editar'
+        Caption = 'Desactivar'
         TabOrder = 0
-        OnClick = btnEditarClick
-      end
-      object btnEliminar: TButton
-        Left = 176
-        Top = 8
-        Width = 75
-        Height = 25
-        Caption = 'Eliminar'
-        TabOrder = 1
-        OnClick = btnEliminarClick
+        OnClick = btnDesactivarClick
       end
       object btnNuevo: TButton
-        Left = 14
-        Top = 8
+        Left = 13
+        Top = 6
         Width = 75
         Height = 25
         Caption = 'Nuevo'
-        TabOrder = 2
+        TabOrder = 1
         OnClick = btnNuevoClick
       end
       object btnActivar: TButton
-        Left = 257
-        Top = 8
+        Left = 199
+        Top = 6
         Width = 75
         Height = 25
         Caption = 'Activar'
-        TabOrder = 3
-        OnClick = btnEliminarClick
+        TabOrder = 2
+        OnClick = btnActivarClick
       end
-      object btnCerrar: TButton
-        Left = 338
-        Top = 8
+      object btnGuardar: TButton
+        Left = 94
+        Top = 6
         Width = 75
         Height = 25
-        Caption = 'Cerrar'
-        TabOrder = 4
-        OnClick = btnEliminarClick
+        Caption = 'Guardar'
+        TabOrder = 3
+        OnClick = btnGuardarClick
       end
       object navGrid: TDBNavigator
         Left = 451
@@ -84,7 +74,7 @@ object FProductos: TFProductos
         Width = 240
         Height = 25
         DataSource = dm.dsproductos
-        TabOrder = 5
+        TabOrder = 4
       end
     end
     object pnlGrid: TPanel
@@ -164,6 +154,8 @@ object FProductos: TFProductos
       Height = 224
       Align = alTop
       TabOrder = 2
+      ExplicitLeft = 0
+      ExplicitTop = 2
       object lblPrecioCompra: TLabel
         Left = 222
         Top = 24
@@ -179,14 +171,14 @@ object FProductos: TFProductos
         Caption = 'Precio Venta :'
       end
       object lblStock: TLabel
-        Left = 231
+        Left = 470
         Top = 104
         Width = 66
         Height = 13
         Caption = 'Stock Actual :'
       end
       object lblActivo: TLabel
-        Left = 499
+        Left = 261
         Top = 104
         Width = 37
         Height = 13
@@ -241,6 +233,7 @@ object FProductos: TFProductos
         Height = 21
         DataField = 'id'
         DataSource = dm.dsproductos
+        ReadOnly = True
         TabOrder = 0
       end
       object dbeCodigo: TDBEdit
@@ -250,6 +243,7 @@ object FProductos: TFProductos
         Height = 21
         DataField = 'codigo'
         DataSource = dm.dsproductos
+        ReadOnly = True
         TabOrder = 1
       end
       object dbeNombre: TDBEdit
@@ -280,12 +274,13 @@ object FProductos: TFProductos
         TabOrder = 4
       end
       object dbeStock: TDBEdit
-        Left = 304
+        Left = 543
         Top = 101
         Width = 121
         Height = 21
         DataField = 'stock_actual'
         DataSource = dm.dsproductos
+        ReadOnly = True
         TabOrder = 5
       end
       object dbeFechaAlta: TDBEdit
@@ -295,6 +290,7 @@ object FProductos: TFProductos
         Height = 21
         DataField = 'fecha_alta'
         DataSource = dm.dsproductos
+        ReadOnly = True
         TabOrder = 6
       end
       object dbeFechaMod: TDBEdit
@@ -304,6 +300,7 @@ object FProductos: TFProductos
         Height = 21
         DataField = 'fecha_actualizacion'
         DataSource = dm.dsproductos
+        ReadOnly = True
         TabOrder = 7
       end
       object dbmDescripcion: TDBMemo
@@ -316,7 +313,7 @@ object FProductos: TFProductos
         TabOrder = 8
       end
       object dbcbActivo: TDBCheckBox
-        Left = 542
+        Left = 304
         Top = 103
         Width = 97
         Height = 17

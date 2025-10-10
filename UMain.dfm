@@ -1,7 +1,7 @@
 object FMain: TFMain
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'Gestion Almac'#233'n'
   ClientHeight = 417
   ClientWidth = 552
   Color = clBtnFace
