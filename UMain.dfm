@@ -2,8 +2,8 @@ object FMain: TFMain
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 432
-  ClientWidth = 551
+  ClientHeight = 417
+  ClientWidth = 552
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,7 +15,7 @@ object FMain: TFMain
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object BtnClientes: TButton
+  object btnClientes: TButton
     Left = 8
     Top = 8
     Width = 265
@@ -23,13 +23,13 @@ object FMain: TFMain
     Hint = 'Gesti'#243'n de clientes'
     Caption = '&Clientes'
     TabOrder = 0
-    OnClick = BtnClientesClick
+    OnClick = btnClientesClick
   end
   object BtnProveedores: TButton
-    Left = 8
-    Top = 143
-    Width = 265
-    Height = 130
+    Left = 279
+    Top = 8
+    Width = 264
+    Height = 129
     Hint = 'Gesti'#243'n de proveedores'
     Caption = '&Proveedores'
     TabOrder = 1
@@ -37,23 +37,23 @@ object FMain: TFMain
   end
   object BtnProductos: TButton
     Left = 279
-    Top = 8
+    Top = 279
     Width = 265
-    Height = 129
+    Height = 130
     Hint = 'Gesti'#243'n de productos'
     Caption = '&Productos'
     TabOrder = 2
     OnClick = BtnProductosClick
   end
-  object BtnMovimientos: TButton
-    Left = 8
-    Top = 279
-    Width = 265
-    Height = 138
+  object btnMovimientos: TButton
+    Left = 7
+    Top = 143
+    Width = 266
+    Height = 130
     Hint = 'Registro de movimientos'
     Caption = '&Movimientos'
     TabOrder = 3
-    OnClick = BtnMovimientosClick
+    OnClick = btnMovimientosClick
   end
   object btnPedidos: TButton
     Left = 279
@@ -62,6 +62,15 @@ object FMain: TFMain
     Height = 130
     Caption = '&Pedidos'
     TabOrder = 4
+    OnClick = btnPedidosClick
+  end
+  object btnOperar: TButton
+    Left = 8
+    Top = 279
+    Width = 265
+    Height = 130
+    Caption = '&Operar (Compra/Venta)'
+    TabOrder = 5
     OnClick = btnPedidosClick
   end
 end

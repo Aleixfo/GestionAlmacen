@@ -8,20 +8,19 @@ uses
 
 type
   TFMain = class(TForm)
-
-    // Botones de Menu
-    BtnClientes: TButton;
+    btnClientes: TButton;
     BtnProveedores: TButton;
     BtnProductos: TButton;
-    BtnMovimientos: TButton;
+    btnMovimientos: TButton;
     btnPedidos: TButton;
+    btnOperar: TButton;
 
     // Procedimientos
     procedure FormCreate(Sender: TObject);
-    procedure BtnClientesClick(Sender: TObject);
+    procedure btnClientesClick(Sender: TObject);
     procedure BtnProveedoresClick(Sender: TObject);
     procedure BtnProductosClick(Sender: TObject);
-    procedure BtnMovimientosClick(Sender: TObject);
+    procedure btnMovimientosClick(Sender: TObject);
     procedure btnPedidosClick(Sender: TObject);
 
   private
@@ -70,7 +69,7 @@ begin
 end;
 
 // Procedimiento de la logica al pulsar el boton de clientes (Boton Clientes --> OnClick)
-procedure TFMain.BtnClientesClick(Sender: TObject);
+procedure TFMain.btnClientesClick(Sender: TObject);
 begin
   // Crear y mostrar el formulario de clientes
   if not Assigned(FClientes) then
@@ -95,7 +94,7 @@ begin
 end;
 
 // Procedimiento de la logica al pulsar el boton de movimientos (Boton Movimientos --> OnClick)
-procedure TFMain.BtnMovimientosClick(Sender: TObject);
+procedure TFMain.btnMovimientosClick(Sender: TObject);
 begin
   if not Assigned(FProductos) then
     FMovimientos := TFMovimientos.Create(Self);

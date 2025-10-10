@@ -7,16 +7,16 @@ object dm: Tdm
     Username = 'root'
     Server = 'localhost'
     Connected = True
-    Left = 24
-    Top = 24
+    Left = 336
+    Top = 32
     EncryptedPassword = '8DFF90FF90FF8BFF'
   end
   object tproveedores: TMyTable
     TableName = 'proveedores'
     Connection = db
     Options.FieldOrigins = foNone
-    Left = 120
-    Top = 304
+    Left = 136
+    Top = 216
     object tproveedoresid: TIntegerField
       FieldName = 'id'
     end
@@ -50,8 +50,8 @@ object dm: Tdm
     TableName = 'clientes'
     Connection = db
     Options.FieldOrigins = foNone
-    Left = 120
-    Top = 232
+    Left = 136
+    Top = 144
     object tclientesid: TIntegerField
       FieldName = 'id'
     end
@@ -85,8 +85,8 @@ object dm: Tdm
     TableName = 'productos'
     Connection = db
     Options.FieldOrigins = foNone
-    Left = 120
-    Top = 376
+    Left = 136
+    Top = 288
     object tproductosid: TIntegerField
       FieldName = 'id'
     end
@@ -128,8 +128,8 @@ object dm: Tdm
     MasterSource = dsclientes
     Connection = db
     Options.FieldOrigins = foNone
-    Left = 312
-    Top = 160
+    Left = 136
+    Top = 352
     object tmovimientosid: TIntegerField
       FieldName = 'id'
     end
@@ -164,23 +164,23 @@ object dm: Tdm
   end
   object dsproveedores: TDataSource
     DataSet = tproveedores
-    Left = 200
-    Top = 304
+    Left = 216
+    Top = 216
   end
   object dsclientes: TDataSource
     DataSet = tclientes
-    Left = 200
-    Top = 232
+    Left = 216
+    Top = 144
   end
   object dsproductos: TDataSource
     DataSet = tproductos
-    Left = 200
-    Top = 376
+    Left = 216
+    Top = 288
   end
   object dsmovimientos: TDataSource
     DataSet = tmovimientos
-    Left = 440
-    Top = 160
+    Left = 216
+    Top = 352
   end
   object qryMovimientosCliente: TMyQuery
     Connection = db
@@ -201,8 +201,8 @@ object dm: Tdm
       'ORDER BY m.fecha_movimiento DESC')
     Options.FieldOrigins = foNone
     MasterSource = dsclientes
-    Left = 312
-    Top = 232
+    Left = 400
+    Top = 144
     ParamData = <
       item
         DataType = ftInteger
@@ -247,8 +247,8 @@ object dm: Tdm
   end
   object dsMovimientosCliente: TDataSource
     DataSet = qryMovimientosCliente
-    Left = 440
-    Top = 232
+    Left = 528
+    Top = 144
   end
   object qryMovimientosProveedor: TMyQuery
     Connection = db
@@ -272,8 +272,8 @@ object dm: Tdm
     Options.FieldOrigins = foNone
     MasterSource = dsproveedores
     DetailFields = 'proveedor_id'
-    Left = 312
-    Top = 304
+    Left = 400
+    Top = 216
     ParamData = <
       item
         DataType = ftInteger
@@ -329,20 +329,43 @@ object dm: Tdm
   end
   object dsMovimientosProveedor: TDataSource
     DataSet = qryMovimientosProveedor
-    Left = 440
-    Top = 304
+    Left = 528
+    Top = 216
   end
   object qryReferencias: TMyQuery
     Connection = db
     SQL.Strings = (
-      'SELECT DISTINCT referencia'
-      'FROM movimientos'
-      'WHERE referencia IS NOT NULL'
-      'AND referencia != '#39#39#39#39
+      'SELECT DISTINCT referencia '
+      'FROM movimientos '
+      'WHERE referencia IS NOT NULL '
+      '  AND referencia != '#39#39
+      '  AND (:cliente_id = 0 OR cliente_id = :cliente_id)'
+      '  AND (:proveedor_id = 0 OR proveedor_id = :proveedor_id)'
       'ORDER BY referencia DESC')
     Options.FieldOrigins = foNone
-    Left = 328
-    Top = 48
+    Left = 400
+    Top = 344
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'cliente_id'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'cliente_id'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'proveedor_id'
+        Value = nil
+      end
+      item
+        DataType = ftUnknown
+        Name = 'proveedor_id'
+        Value = nil
+      end>
   end
   object qryDetallePedido: TMyQuery
     Connection = db
@@ -367,8 +390,8 @@ object dm: Tdm
       'WHERE m.referencia = :referencia'
       'ORDER BY p.nombre')
     Options.FieldOrigins = foNone
-    Left = 328
-    Top = 432
+    Left = 400
+    Top = 280
     ParamData = <
       item
         DataType = ftString
@@ -412,7 +435,7 @@ object dm: Tdm
   end
   object dsDetallePedido: TDataSource
     DataSet = qryDetallePedido
-    Left = 440
-    Top = 432
+    Left = 528
+    Top = 280
   end
 end
