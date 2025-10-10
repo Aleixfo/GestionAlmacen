@@ -3,36 +3,41 @@
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
-  Vcl.StdCtrls, Vcl.ExtCtrls, UDm;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.ExtCtrls, UDm;
 
 type
   TFPedidos = class(TForm)
 
+    // Componentes
     pnlGeneral: TPanel;
-    cbxReferencias: TComboBox;
     grdMovimientos: TDBGrid;
     pnlFiltros: TPanel;
     lblCliente: TLabel;
     lblProveedor: TLabel;
     cbxClientes: TComboBox;
     cbxProveedores: TComboBox;
-    btnFiltrar: TButton;
     btnLimpiar: TButton;
     gbxFiltros: TGroupBox;
+    ListBox1: TListBox;
+    editBuscar: TEdit;
+    lblReferencias: TLabel;
+    pnlListBox: TPanel;
 
+    // Procedimientos de carga
     procedure FormShow(Sender: TObject);
     procedure CargarReferencias(Sender: TObject);
     procedure CargarDetallePedido(Referencia: string);
-    procedure cbxReferenciasChange(Sender: TObject);
-
     procedure CargarClientes;
     procedure CargarProveedores;
+
+    // Acciones componentes
     procedure cbxClientesChange(Sender: TObject);
     procedure cbxProveedoresChange(Sender: TObject);
-    procedure btnFiltrarClick(Sender: TObject);
     procedure btnLimpiarClick(Sender: TObject);
+    procedure editBuscarChange(Sender: TObject);
+    procedure ListBox1Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -47,6 +52,8 @@ implementation
 
 {$R *.dfm}
 
+// ----------------------------- FORM SHOW -------------------------------------
+
 procedure TFPedidos.FormShow(Sender: TObject);
 begin
   CargarClientes;
@@ -54,23 +61,45 @@ begin
   CargarReferencias(Sender);
 end;
 
-procedure TFPedidos.btnFiltrarClick(Sender: TObject);
+// ------------------------ CARGAR REFERENCIAS ---------------------------------
+
+procedure TFPedidos.CargarReferencias(Sender: TObject);
+var
+  ClienteId, ProveedorId: Integer;
 begin
-  CargarReferencias(Sender);
+  ListBox1.Clear;
+  EditBuscar.Text := '';
+
+  // Obtener IDs (mismo código que antes)
+  if cbxClientes.ItemIndex > 0 then
+    ClienteId := Integer(cbxClientes.Items.Objects[cbxClientes.ItemIndex])
+  else
+    ClienteId := 0;
+
+  if cbxProveedores.ItemIndex > 0 then
+    ProveedorId := Integer(cbxProveedores.Items.Objects[cbxProveedores.ItemIndex])
+  else
+    ProveedorId := 0;
+
+  DM.qryReferencias.Close;
+  DM.qryReferencias.ParamByName('cliente_id').AsInteger := ClienteId;
+  DM.qryReferencias.ParamByName('proveedor_id').AsInteger := ProveedorId;
+  DM.qryReferencias.Open;
+
+  try
+    while not DM.qryReferencias.EOF do
+    begin
+      ListBox1.Items.Add(DM.qryReferencias.FieldByName('referencia').AsString);
+      DM.qryReferencias.Next;
+    end;
+  finally
+    DM.qryReferencias.Close;
+  end;
+
+  lblReferencias.Caption := Format('Referencias (%d)', [ListBox1.Items.Count]);
 end;
 
-procedure TFPedidos.btnLimpiarClick(Sender: TObject);
-begin
-  // Limpiar todos los filtros
-  cbxClientes.ItemIndex := 0;
-  cbxProveedores.ItemIndex := 0;
-  cbxReferencias.Clear;
-  cbxReferencias.Items.Add('');
-  cbxReferencias.ItemIndex := 0;
-
-  // Opcional: limpiar el grid de detalle
-  DM.qryDetallePedido.Close;
-end;
+// ----------------------- CARGAR CLIENTES -------------------------------------
 
 procedure TFPedidos.CargarClientes;
 begin
@@ -89,6 +118,8 @@ begin
   end;
   cbxClientes.ItemIndex := 0;
 end;
+
+// ----------------------- CARGAR PROVEEDORES ----------------------------------
 
 procedure TFPedidos.CargarProveedores;
 begin
@@ -112,53 +143,39 @@ begin
   cbxProveedores.ItemIndex := 0;
 end;
 
-procedure TFPedidos.CargarReferencias(Sender: TObject);
-var
-  ClienteId: Integer;
-  ProveedorId: Integer;
+// ------------------------------ PEDIDO ---------------------------------------
+
+procedure TFPedidos.CargarDetallePedido(Referencia: string);
 begin
+  DM.qryDetallePedido.Close;
+  DM.qryDetallePedido.ParamByName('referencia').AsString := Referencia;
+  DM.qryDetallePedido.Open;
+end;
 
-  cbxReferencias.Clear;
-  cbxReferencias.Items.Add('');
+// -----------------------------------------------------------------------------
 
-  //Primero hay definir que filtro vamos a aplicar, si ciente o proveedor.
-  //Parte de cliente
-  //Miramos si me han seleccionado algun cliente
-  if cbxClientes.ItemIndex > 0 then
-    ClienteId := Integer(cbxClientes.Items.Objects[cbxClientes.ItemIndex])
-  else
-    ClienteId := 0;
-
-  if cbxProveedores.ItemIndex > 0 then
-    ProveedorId := Integer(cbxProveedores.Items.Objects[cbxProveedores.ItemIndex])
-  else
-    ProveedorId := 0;
-
-  // Asignar parámetros a la query (que ya tiene la SQL definida)
-  DM.qryReferencias.Close;
-
-  // Asegurarse de que los parámetros existen antes de asignarlos
-  try
-    DM.qryReferencias.ParamByName('cliente_id').AsInteger := ClienteId;
-  except
-    // Si el parámetro no existe, lo ignoramos
-  end;
-
-  try
-    DM.qryReferencias.ParamByName('proveedor_id').AsInteger := ProveedorId;
-  except
-    // Si el parámetro no existe, lo ignoramos
-  end;
-
-  DM.qryReferencias.Open;
-
-  while not DM.qryReferencias.EOF do
+procedure TFPedidos.ListBox1Click(Sender: TObject);
+begin
+  if ListBox1.ItemIndex >= 0 then
   begin
-    cbxReferencias.Items.Add(DM.qryReferencias.FieldByName('referencia').AsString);
-    DM.qryReferencias.Next;
+    DM.qryDetallePedido.Close;
+    DM.qryDetallePedido.ParamByName('referencia').AsString := ListBox1.Items[ListBox1.ItemIndex];
+    DM.qryDetallePedido.Open;
   end;
-  DM.qryReferencias.Close;
+end;
 
+procedure TFPedidos.btnLimpiarClick(Sender: TObject);
+begin
+  // Limpiar todos los filtros
+  cbxClientes.ItemIndex := 0;
+  cbxProveedores.ItemIndex := 0;
+  EditBuscar.Text := '';
+
+  // Recargar referencias sin filtros
+  CargarReferencias(Sender);
+
+  // Limpiar el grid de detalle
+  DM.qryDetallePedido.Close;
 end;
 
 procedure TFPedidos.cbxClientesChange(Sender: TObject);
@@ -181,30 +198,41 @@ begin
   CargarReferencias(Sender);
 end;
 
-procedure TFPedidos.cbxReferenciasChange(Sender: TObject);
+procedure TFPedidos.editBuscarChange(Sender: TObject);
 var
-  Referencia: string;
+  I: Integer;
+  TextoBuscar: string;
+  FoundIndex: Integer;
 begin
+  TextoBuscar := UpperCase(Trim(EditBuscar.Text));
 
-  // Tomar el valor del ComboBox
-  Referencia := cbxReferencias.Text;
-
-  if Referencia <> '' then
+  // Si el texto está vacío, mostrar todos los items
+  if TextoBuscar = '' then
   begin
-    DM.qryDetallePedido.Close;
-    DM.qryDetallePedido.ParamByName('referencia').AsString := Referencia;
-    DM.qryDetallePedido.Open;
+    for I := 0 to ListBox1.Items.Count - 1 do
+      ListBox1.Items[I] := ListBox1.Items[I]; // Esto fuerza a mostrar todos
+    Exit;
+  end;
+
+  // Buscar la primera coincidencia y seleccionarla
+  FoundIndex := -1;
+  for I := 0 to ListBox1.Items.Count - 1 do
+  begin
+    if Pos(TextoBuscar, UpperCase(ListBox1.Items[I])) > 0 then
+    begin
+      FoundIndex := I;
+      Break;
+    end;
+  end;
+
+  if FoundIndex >= 0 then
+  begin
+    ListBox1.ItemIndex := FoundIndex;
+    // Opcional: hacer scroll al item seleccionado
+    ListBox1.TopIndex := FoundIndex;
   end
   else
-    ShowMessage('Seleccione una referencia');
-
-end;
-
-procedure TFPedidos.CargarDetallePedido(Referencia: string);
-begin
-  DM.qryDetallePedido.Close;
-  DM.qryDetallePedido.ParamByName('referencia').AsString := Referencia;
-  DM.qryDetallePedido.Open;
+    ListBox1.ItemIndex := -1;
 end;
 
 end.

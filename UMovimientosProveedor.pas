@@ -9,6 +9,7 @@ uses
 
 type
   TFMovimientosProveedor = class(TForm)
+
     Panel1: TPanel;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;

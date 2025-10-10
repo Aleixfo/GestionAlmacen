@@ -21,10 +21,6 @@ object FMovimientosProveedor: TFMovimientosProveedor
     Height = 468
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 288
-    ExplicitTop = 184
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object GroupBox1: TGroupBox
       Left = 1
       Top = 1
@@ -33,8 +29,6 @@ object FMovimientosProveedor: TFMovimientosProveedor
       Align = alTop
       Caption = 'Informaci'#243'n del Movimiento Seleccionado'
       TabOrder = 0
-      ExplicitLeft = 2
-      ExplicitTop = 0
       object Label1: TLabel
         Left = 48
         Top = 48
@@ -150,9 +144,6 @@ object FMovimientosProveedor: TFMovimientosProveedor
       Align = alBottom
       Caption = 'Movimientos del proveedor '
       TabOrder = 1
-      ExplicitLeft = 0
-      ExplicitTop = 265
-      ExplicitWidth = 534
       object CRDBGrid1: TCRDBGrid
         Left = 2
         Top = 15
@@ -219,7 +210,7 @@ object FMovimientosProveedor: TFMovimientosProveedor
             Expanded = False
             FieldName = 'total'
             Title.Caption = 'Imp.'
-            Width = 60
+            Width = 64
             Visible = True
           end>
       end

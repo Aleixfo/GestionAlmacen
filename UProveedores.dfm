@@ -20,9 +20,6 @@ object FProveedores: TFProveedores
     Height = 52
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 295
-    ExplicitWidth = 664
-    ExplicitHeight = 41
     object BtnNuevo: TButton
       Left = 16
       Top = 21
@@ -66,8 +63,6 @@ object FProveedores: TFProveedores
     Height = 184
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 288
-    ExplicitWidth = 844
     object CRDBGrid1: TCRDBGrid
       Left = 1
       Top = 1
@@ -133,8 +128,6 @@ object FProveedores: TFProveedores
     Height = 289
     Align = alTop
     TabOrder = 2
-    ExplicitLeft = -8
-    ExplicitTop = 15
     object GroupBox1: TGroupBox
       Left = 1
       Top = 1
@@ -143,7 +136,6 @@ object FProveedores: TFProveedores
       Align = alClient
       Caption = 'Informaci'#243'n del proveedor '
       TabOrder = 0
-      ExplicitTop = -4
       object Label1: TLabel
         Left = 31
         Top = 32

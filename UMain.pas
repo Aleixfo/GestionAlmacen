@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UDm, Vcl.StdCtrls;  // IMPORTANTE: Agregar UDm
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UDm, Vcl.StdCtrls;
 
 type
   TFMain = class(TForm)
@@ -37,7 +37,11 @@ implementation
 
 {$R *.dfm}
 
-uses UClientes, UProveedores, UProductos, UMovimientos, UPedidos;
+uses UClientes,
+     UProveedores,
+     UProductos,
+     UMovimientos,
+     UPedidos;
 
 // Procedimiento con la logica que se ejecuta cuando se crea el formulario principal (UMain)
 procedure TFMain.FormCreate(Sender: TObject);
@@ -48,18 +52,16 @@ var
 begin
   // Probamos la conexión y carga de datos
   dm.ConectarBD;
-
   if dm.EstaConectado then
   begin
     dm.AbrirTablas;
-    { ShowMessage('Conexión exitosa a la base de datos' + #13#10 +
-                'Tablas cargadas correctamente'); }
+
+    {ShowMessage('Conexión exitosa a la base de datos' + #13#10 + 'Tablas cargadas correctamente');}
 
     // Logica para centrar el form inicial enmedio de la pantalla
     WorkArea := Screen.WorkAreaRect; // Área sin la barra de tareas
     Left := (WorkArea.Width - Width) div 2;
     Top := (WorkArea.Height - Height) div 2;
-
   end
   else
   begin
@@ -100,6 +102,7 @@ begin
   FMovimientos.Show;
 end;
 
+// Procedimiento de la logica al pulsar el boton de pedidos (Boton Pedidos --> OnClick)
 procedure TFMain.btnPedidosClick(Sender: TObject);
 begin
   if not Assigned(FPedidos) then

@@ -3,7 +3,7 @@ object FMain: TFMain
   Top = 0
   Caption = 'Form1'
   ClientHeight = 432
-  ClientWidth = 635
+  ClientWidth = 551
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -36,7 +36,7 @@ object FMain: TFMain
     OnClick = BtnProveedoresClick
   end
   object BtnProductos: TButton
-    Left = 360
+    Left = 279
     Top = 8
     Width = 265
     Height = 129
@@ -56,7 +56,7 @@ object FMain: TFMain
     OnClick = BtnMovimientosClick
   end
   object btnPedidos: TButton
-    Left = 360
+    Left = 279
     Top = 143
     Width = 265
     Height = 130
