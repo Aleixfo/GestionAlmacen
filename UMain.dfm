@@ -36,8 +36,8 @@ object FMain: TFMain
     OnClick = BtnProveedoresClick
   end
   object BtnProductos: TButton
-    Left = 279
-    Top = 279
+    Left = 8
+    Top = 143
     Width = 265
     Height = 130
     Hint = 'Gesti'#243'n de productos'
@@ -46,7 +46,7 @@ object FMain: TFMain
     OnClick = BtnProductosClick
   end
   object btnMovimientos: TButton
-    Left = 7
+    Left = 279
     Top = 143
     Width = 266
     Height = 130
@@ -57,7 +57,7 @@ object FMain: TFMain
   end
   object btnPedidos: TButton
     Left = 279
-    Top = 143
+    Top = 279
     Width = 265
     Height = 130
     Caption = '&Pedidos'

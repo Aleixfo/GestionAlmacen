@@ -22,9 +22,6 @@ object FPedidos: TFPedidos
     Margins.Top = 10
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 8
-    ExplicitTop = 15
-    ExplicitWidth = 825
     object grdMovimientos: TDBGrid
       Left = 255
       Top = 14
@@ -103,9 +100,6 @@ object FPedidos: TFPedidos
         Padding.Left = 30
         Padding.Bottom = 30
         TabOrder = 0
-        ExplicitLeft = 0
-        ExplicitWidth = 232
-        ExplicitHeight = 192
         object lblCliente: TLabel
           Left = 24
           Top = 24
@@ -156,11 +150,11 @@ object FPedidos: TFPedidos
       Height = 269
       TabOrder = 2
       object lblReferencias: TLabel
-        Left = 17
+        Left = 16
         Top = 245
-        Width = 57
+        Width = 52
         Height = 13
-        Caption = 'Referencias'
+        Caption = 'N'#186' Pedidos'
       end
       object ListBox1: TListBox
         Left = 16

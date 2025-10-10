@@ -243,7 +243,6 @@ object FProductos: TFProductos
         Height = 21
         DataField = 'codigo'
         DataSource = dm.dsproductos
-        ReadOnly = True
         TabOrder = 1
       end
       object dbeNombre: TDBEdit
@@ -319,6 +318,7 @@ object FProductos: TFProductos
         Height = 17
         DataField = 'activo'
         DataSource = dm.dsproductos
+        ReadOnly = True
         TabOrder = 9
       end
     end
