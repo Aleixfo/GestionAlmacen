@@ -28,175 +28,167 @@ object FMovimientos: TFMovimientos
       Height = 168
       Align = alTop
       TabOrder = 0
-      object gbxBuscar: TGroupBox
-        Left = 8
-        Top = -1
-        Width = 177
-        Height = 162
-        Caption = 'Buscar Ref. '
-        TabOrder = 0
-        object lblReferencia: TLabel
-          Left = 18
-          Top = 21
-          Width = 59
-          Height = 13
-          Caption = 'Referencia :'
-        end
-        object lblProductos: TLabel
-          Left = 18
-          Top = 78
-          Width = 53
-          Height = 13
-          Caption = 'Producto : '
-        end
-        object btnBuscar: TButton
-          Left = 18
-          Top = 134
-          Width = 121
-          Height = 25
-          Caption = 'Buscar'
-          TabOrder = 0
-          OnClick = btnBuscarClick
-        end
-        object edtReferencia: TEdit
-          Left = 18
-          Top = 40
-          Width = 121
-          Height = 21
-          TabOrder = 1
-          OnKeyPress = edtReferenciaKeyPress
-        end
-        object cbxProducto: TComboBox
-          Left = 18
-          Top = 97
-          Width = 145
-          Height = 21
-          TabOrder = 2
-          Text = 'cbxProducto'
-        end
-      end
+      ExplicitLeft = 2
       object gbxEstadisticas: TGroupBox
         Left = 631
-        Top = -1
+        Top = 0
         Width = 154
-        Height = 162
+        Height = 161
         Caption = 'Estad'#237'sticas '
-        TabOrder = 1
+        TabOrder = 0
         object lblMovimientosHoy: TLabel
-          Left = 27
+          Left = 19
           Top = 64
           Width = 26
           Height = 13
           Caption = 'Hoy :'
         end
         object lblTotalMovimientos: TLabel
-          Left = 27
-          Top = 21
+          Left = 19
+          Top = 26
           Width = 31
           Height = 13
           Caption = 'Total :'
         end
       end
       object gbxFiltros: TGroupBox
-        Left = 191
-        Top = -1
-        Width = 434
-        Height = 162
+        Left = 8
+        Top = 0
+        Width = 617
+        Height = 161
         Caption = 'Filtros'
-        TabOrder = 2
+        TabOrder = 1
         object lblCliente: TLabel
-          Left = 16
-          Top = 67
+          Left = 57
+          Top = 64
           Width = 40
           Height = 13
           Caption = 'Cliente :'
         end
         object lblProveedor: TLabel
-          Left = 16
-          Top = 113
+          Left = 40
+          Top = 98
           Width = 57
           Height = 13
           Caption = 'Proveedor :'
         end
         object lblTipo: TLabel
-          Left = 16
-          Top = 21
+          Left = 70
+          Top = 26
           Width = 27
           Height = 13
           Caption = 'Tipo :'
         end
         object lblFechaInicio: TLabel
-          Left = 216
-          Top = 21
+          Left = 294
+          Top = 26
           Width = 68
           Height = 13
           Caption = 'Fecha desde :'
         end
         object lblFechaFin: TLabel
-          Left = 216
-          Top = 67
+          Left = 296
+          Top = 64
           Width = 66
           Height = 13
           Caption = 'Fecha hasta :'
         end
-        object btnAplicar: TButton
-          Left = 328
-          Top = 123
-          Width = 75
-          Height = 25
-          Caption = 'Aplicar'
-          TabOrder = 0
+        object lblProductos: TLabel
+          Left = 44
+          Top = 133
+          Width = 53
+          Height = 13
+          Caption = 'Producto : '
+        end
+        object lblReferencia: TLabel
+          Left = 303
+          Top = 98
+          Width = 59
+          Height = 13
+          Caption = 'Referencia :'
         end
         object btnLimpiar: TButton
-          Left = 216
-          Top = 123
-          Width = 75
-          Height = 25
+          Left = 296
+          Top = 122
+          Width = 122
+          Height = 26
           Caption = 'Limpiar'
-          TabOrder = 1
+          TabOrder = 0
           OnClick = btnLimpiarClick
         end
         object cbxTipoMovimiento: TComboBox
-          Left = 16
-          Top = 40
+          Left = 103
+          Top = 23
+          Width = 145
+          Height = 21
+          TabOrder = 1
+          Text = 'Seleccione el tipo de mov...'
+          OnChange = cbxTipoMovimientoChange
+        end
+        object cbxClientes: TComboBox
+          Left = 103
+          Top = 61
           Width = 145
           Height = 21
           TabOrder = 2
-          Text = 'Seleccione el tipo de mov...'
+          Text = 'Seleccione el cliente...'
+          OnChange = OnFiltrosChange
         end
-        object cbxClientes: TComboBox
-          Left = 16
-          Top = 86
+        object cbxProveedores: TComboBox
+          Left = 103
+          Top = 96
           Width = 145
           Height = 21
           TabOrder = 3
-          Text = 'Seleccione el cliente...'
-        end
-        object cbxProveedores: TComboBox
-          Left = 16
-          Top = 132
-          Width = 145
-          Height = 21
-          TabOrder = 4
           Text = 'Seleccione el proveedor...'
+          OnChange = OnFiltrosChange
         end
         object dtpFechaInicio: TDateTimePicker
-          Left = 216
-          Top = 40
+          Left = 368
+          Top = 23
           Width = 186
           Height = 21
           Date = 45943.000000000000000000
           Time = 0.386668275459669500
-          TabOrder = 5
+          TabOrder = 4
+          OnChange = OnFiltrosChange
         end
         object dtpFechaFin: TDateTimePicker
-          Left = 216
-          Top = 86
+          Left = 368
+          Top = 61
           Width = 186
           Height = 21
           Date = 45943.000000000000000000
           Time = 0.388255150464829100
+          TabOrder = 5
+          OnChange = OnFiltrosChange
+        end
+        object btnBuscar: TButton
+          Left = 424
+          Top = 122
+          Width = 130
+          Height = 25
+          Caption = 'Buscar'
           TabOrder = 6
+          OnClick = OnFiltrosChange
+        end
+        object cbxProducto: TComboBox
+          Left = 103
+          Top = 130
+          Width = 145
+          Height = 21
+          TabOrder = 7
+          Text = 'cbxProducto'
+          OnChange = OnFiltrosChange
+        end
+        object edtReferencia: TEdit
+          Left = 368
+          Top = 95
+          Width = 186
+          Height = 21
+          TabOrder = 8
+          OnKeyDown = edtReferenciaKeyDown
+          OnKeyPress = edtReferenciaKeyPress
         end
       end
     end
@@ -224,70 +216,54 @@ object FMovimientos: TFMovimientos
           item
             Expanded = False
             FieldName = 'id'
+            Title.Caption = 'ID'
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'producto_id'
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'tipo_movimiento'
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'cantidad'
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'proveedor_id'
-            Width = 64
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'cliente_id'
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'fecha_movimiento'
-            Width = 64
+            Title.Caption = 'Producto'
+            Width = 84
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'referencia'
+            Title.Caption = 'Referencia'
+            Width = 164
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'tipo_movimiento'
+            Title.Caption = '(E/S)'
             Width = 64
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'observaciones'
-            Width = 64
+            FieldName = 'cantidad'
+            Title.Caption = 'Cantidad'
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'nomcli'
+            FieldName = 'proveedor_id'
+            Title.Caption = 'C'#243'digo Pro.'
+            Width = 84
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'nompro'
+            FieldName = 'cliente_id'
+            Title.Caption = 'C'#243'digo Cli.'
+            Width = 84
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'import'
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'preucompra'
+            FieldName = 'fecha_movimiento'
+            Title.Caption = 'Fecha'
             Visible = True
           end>
       end

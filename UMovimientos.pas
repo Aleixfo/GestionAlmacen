@@ -9,41 +9,62 @@ uses
 
 type
   TFMovimientos = class(TForm)
+
+    // Componentes TPanel para la estructura de la vista del formulario
     pnlContainer: TPanel;
-    grdMovimientos: TDBGrid;
     pnlHeader: TPanel;
     pnlGrid: TPanel;
-    gbxBuscar: TGroupBox;
+
+    // Componente Grid de movimientos
+    grdMovimientos: TDBGrid;
+
+    // Componentes de agrupación GroupBox
     gbxEstadisticas: TGroupBox;
     gbxFiltros: TGroupBox;
+
+    // Componentes de titulo TLabel
     lblReferencia: TLabel;
-    btnBuscar: TButton;
-    edtReferencia: TEdit;
     lblMovimientosHoy: TLabel;
     lblProductos: TLabel;
     lblCliente: TLabel;
     lblProveedor: TLabel;
     lblTipo: TLabel;
-    btnAplicar: TButton;
-    btnLimpiar: TButton;
-    cbxTipoMovimiento: TComboBox;
-    cbxClientes: TComboBox;
-    cbxProveedores: TComboBox;
-    cbxProducto: TComboBox;
-    dtpFechaInicio: TDateTimePicker;
-    dtpFechaFin: TDateTimePicker;
     lblFechaInicio: TLabel;
     lblFechaFin: TLabel;
     lblTotalMovimientos: TLabel;
 
+    // Componentes TComboBox para los desplegables de el apartado de filtros
+    cbxTipoMovimiento: TComboBox;
+    cbxClientes: TComboBox;
+    cbxProveedores: TComboBox;
+    cbxProducto: TComboBox;
+
+    // Tedit del campo referencia para la busqueda de movimientos
+    edtReferencia: TEdit;
+
+    // Botones de buscar y limpiar filtros
+    btnBuscar: TButton;
+    btnLimpiar: TButton;
+
+    // Componentes TDateTimePicker para las fechas
+    dtpFechaInicio: TDateTimePicker;
+    dtpFechaFin: TDateTimePicker;
+
+
     // Procedimientos de UMovimientos
-    procedure FormShow(Sender: TObject); // Logica al cargar el formulario de movimientos
-    procedure BtnNuevoClick(Sender: TObject); // Boton de nuevo movimiento
-    procedure BtnEditarClick(Sender: TObject); // Boton de editar movimiento
-    procedure BtnEliminarClick(Sender: TObject);
-    procedure btnBuscarClick(Sender: TObject);
-    procedure edtReferenciaKeyPress(Sender: TObject; var Key: Char);
-    procedure btnLimpiarClick(Sender: TObject); // Boton de eliminar movimiento
+    procedure FormShow(Sender: TObject);
+    procedure btnLimpiarClick(Sender: TObject);
+    procedure cbxTipoMovimientoChange(Sender: TObject);
+    procedure OnFiltrosChange(Sender: TObject);
+
+    procedure edtReferenciaKeyPress(
+      Sender: TObject;
+      var Key: Char);
+
+    procedure edtReferenciaKeyDown(
+      Sender: TObject;
+      var Key: Word;
+      Shift: TShiftState);
 
   private
 
@@ -52,6 +73,7 @@ type
     procedure CargarCombosFiltros;
     procedure AplicarFiltros;
     procedure LimpiarFiltros;
+    procedure GestionarEstadoCombos;
     function GenerarWhereFiltros: string;
 
   public
@@ -65,47 +87,37 @@ implementation
 
 {$R *.dfm}
 
+// -----------------------------------------------------------------------------
+
 procedure TFMovimientos.FormShow(Sender: TObject);
 begin
 
-  // Asegurar que la tabla está abierta
   if not dm.tmovimientos.Active then
     dm.tmovimientos.Open;
 
+  // Lógica inicial
   ConfigurarGrid;
-  CargarCombosFiltros;
+  CargarCombosFiltros; // Configurar estado inicial de los combos
   LimpiarFiltros;
+  GestionarEstadoCombos; // Bloqueo de combobox de cliente o proveedor
+
+  // Inicializar labels de estadisitica
+  lblTotalMovimientos.Caption := 'Total: '
+  + IntToStr(dm.tmovimientos.RecordCount) + ' movimientos';
 
 end;
 
-procedure TFMovimientos.LimpiarFiltros;
-begin
-  edtReferencia.Text := '';
-  cbxTipoMovimiento.ItemIndex := 0;
-  cbxProducto.ItemIndex := 0;
-  cbxProveedores.ItemIndex := 0;
-  cbxClientes.ItemIndex := 0;
-  dtpFechaInicio.Date := Now - 30;
-  dtpFechaFin.Date := Now;
-
-  AplicarFiltros;
-end;
+// -----------------------------------------------------------------------------
 
 procedure TFMovimientos.ConfigurarGrid;
 begin
-  with grdMovimientos do
-  begin
-
-    // Hacer el grid de solo lectura
-    ReadOnly := True;
-    Options := [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines,
-                dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack];
-
-    // Remover opción de edición
-    Options := Options - [dgEditing];
-
-  end;
+  grdMovimientos.ReadOnly := True; // Hacer el grid de solo lectura
+  grdMovimientos.Options := [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines,
+              dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack];
+  grdMovimientos.Options := grdMovimientos.Options - [dgEditing]; // Remover opción de edición
 end;
+
+// -----------------------------------------------------------------------------
 
 procedure TFMovimientos.CargarCombosFiltros;
 begin
@@ -173,6 +185,97 @@ begin
   dtpFechaFin.Date := Now;
 end;
 
+// -----------------------------------------------------------------------------
+
+procedure TFMovimientos.LimpiarFiltros;
+begin
+  // Limpiar controles visuales
+  edtReferencia.Text := '';
+  cbxTipoMovimiento.ItemIndex := 0;
+  cbxProducto.ItemIndex := 0;
+  cbxProveedores.ItemIndex := 0;
+  cbxClientes.ItemIndex := 0;
+  dtpFechaInicio.Date := Now - 30;
+  dtpFechaFin.Date := Now;
+
+  // Actualizar estado de combos
+  GestionarEstadoCombos;
+
+  // Quitar filtros
+  dm.tmovimientos.DisableControls;
+  try
+    dm.tmovimientos.Filtered := False;
+    dm.tmovimientos.Filter := '';
+  finally
+    dm.tmovimientos.EnableControls;
+  end;
+
+  lblTotalMovimientos.Caption := 'Total: ' + IntToStr(dm.tmovimientos.RecordCount) + ' movimientos';
+end;
+
+// -----------------------------------------------------------------------------
+
+procedure TFMovimientos.GestionarEstadoCombos;
+begin
+  case cbxTipoMovimiento.ItemIndex of
+    1: // ENTRADA
+    begin
+      // Habilitar proveedor, deshabilitar cliente
+      cbxProveedores.Enabled := True;
+      cbxProveedores.Color := clWindow;
+      cbxProveedores.Style := csDropDownList;
+
+      cbxClientes.Enabled := False;
+      cbxClientes.Color := clBtnFace;
+      cbxClientes.Style := csSimple;
+      cbxClientes.ItemIndex := 0; // Volver a "Todos"
+
+      // Tooltips
+      cbxProveedores.Hint := 'Seleccione proveedor para movimientos de ENTRADA';
+      cbxClientes.Hint := 'No disponible para movimientos de ENTRADA';
+    end;
+
+    2: // SALIDA
+    begin
+      // Habilitar cliente, deshabilitar proveedor
+      cbxClientes.Enabled := True;
+      cbxClientes.Color := clWindow;
+      cbxClientes.Style := csDropDownList;
+
+      cbxProveedores.Enabled := False;
+      cbxProveedores.Color := clBtnFace;
+      cbxProveedores.Style := csSimple;
+      cbxProveedores.ItemIndex := 0; // Volver a "Todos"
+
+      // Tooltips
+      cbxClientes.Hint := 'Seleccione cliente para movimientos de SALIDA';
+      cbxProveedores.Hint := 'No disponible para movimientos de SALIDA';
+    end;
+
+    else // TODOS (0) u otros
+    begin
+      // Ambos habilitados
+      cbxProveedores.Enabled := True;
+      cbxProveedores.Color := clWindow;
+      cbxProveedores.Style := csDropDownList;
+
+      cbxClientes.Enabled := True;
+      cbxClientes.Color := clWindow;
+      cbxClientes.Style := csDropDownList;
+
+      // Tooltips normales
+      cbxProveedores.Hint := 'Seleccione proveedor';
+      cbxClientes.Hint := 'Seleccione cliente';
+    end;
+  end;
+
+  // Actualizar hints
+  cbxProveedores.ShowHint := True;
+  cbxClientes.ShowHint := True;
+end;
+
+// -----------------------------------------------------------------------------
+
 function TFMovimientos.GenerarWhereFiltros: string;
 var
   WhereConditions: TStringList;
@@ -223,13 +326,15 @@ begin
   end;
 end;
 
+// -----------------------------------------------------------------------------
+
 procedure TFMovimientos.AplicarFiltros;
 var
   SQLWhere: string;
 begin
   SQLWhere := GenerarWhereFiltros;
 
-  ShowMessage('Filtros actuales ----->   ' + SQLWhere);
+  {ShowMessage('Filtros actuales ----->   ' + SQLWhere);}
 
   dm.tmovimientos.DisableControls;
   try
@@ -249,44 +354,35 @@ begin
   lblTotalMovimientos.Caption := 'Total: ' + IntToStr(dm.tmovimientos.RecordCount) + ' movimientos';
 end;
 
+// -----------------------------------------------------------------------------
+
 procedure TFMovimientos.edtReferenciaKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #13 then // Tecla Enter
   begin
-    btnBuscarClick(Sender);
+    OnFiltrosChange(Sender);
     Key := #0; // Evitar el sonido del sistema
   end;
 end;
 
-procedure TFMovimientos.btnBuscarClick(Sender: TObject);
+procedure TFMovimientos.edtReferenciaKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_TAB then // Tecla Tab
+  begin
+    AplicarFiltros;
+  end;
+end;
+
+procedure TFMovimientos.cbxTipoMovimientoChange(Sender: TObject);
+begin
+  GestionarEstadoCombos; // Primero gestionar el estado de los combos
+  AplicarFiltros; // Luego aplicar los filtros
+end;
+
+procedure TFMovimientos.OnFiltrosChange(Sender: TObject);
 begin
   AplicarFiltros;
-end;
-
-procedure TFMovimientos.BtnNuevoClick(Sender: TObject);
-begin
-  dm.tmovimientos.Append;
-  // Aquí luego abriremos un formulario de edición
-  ShowMessage('Nuevo movimiento - Por implementar');
-end;
-
-procedure TFMovimientos.BtnEditarClick(Sender: TObject);
-begin
-  if not dm.tmovimientos.IsEmpty then
-    dm.tmovimientos.Edit
-  else
-    ShowMessage('No hay movimientos para editar');
-end;
-
-procedure TFMovimientos.BtnEliminarClick(Sender: TObject);
-begin
-  if not dm.tmovimientos.IsEmpty then
-  begin
-    if MessageDlg('¿Eliminar este movimiento?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-      dm.tmovimientos.Delete;
-  end
-  else
-    ShowMessage('No hay movimientos para eliminar');
 end;
 
 procedure TFMovimientos.btnLimpiarClick(Sender: TObject);
@@ -294,4 +390,4 @@ begin
   LimpiarFiltros;
 end;
 
-end.
+end. // END of UNIT (.pas)
