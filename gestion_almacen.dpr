@@ -9,7 +9,8 @@ uses
   UProductos in 'UProductos.pas' {FProductos},
   UMovimientos in 'UMovimientos.pas' {FMovimientos},
   UMovimientosCliente in 'UMovimientosCliente.pas' {FMovimientosCliente},
-  UMovimientosProveedor in 'UMovimientosProveedor.pas' {FMovimientosProveedor};
+  UMovimientosProveedor in 'UMovimientosProveedor.pas' {FMovimientosProveedor},
+  UPedidos in 'UPedidos.pas' {FPedidos};
 
 {$R *.res}
 
@@ -24,5 +25,6 @@ begin
   Application.CreateForm(TFMovimientos, FMovimientos);
   Application.CreateForm(TFMovimientosCliente, FMovimientosCliente);
   Application.CreateForm(TFMovimientosProveedor, FMovimientosProveedor);
+  Application.CreateForm(TFPedidos, FPedidos);
   Application.Run;
 end.

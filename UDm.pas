@@ -103,6 +103,7 @@ type
     qryDetallePedidototal_linea: TFloatField;
     qryDetallePedidoproveedor: TStringField;
     qryDetallePedidocliente: TStringField;
+    qryAutoIncrement: TMyQuery;
     procedure qryMovimientosProveedorCalcFields(DataSet: TDataSet);
     procedure qryMovimientosClientetotalGetText(Sender: TField;
       var Text: string; DisplayText: Boolean);
@@ -171,8 +172,6 @@ begin
   CerrarTablas; // Primero cerramos tablas
   db.Connected := False;
 end;
-
-
 
 // Procedimiento de abrir todas las tablas a la vez
 procedure Tdm.AbrirTablas;

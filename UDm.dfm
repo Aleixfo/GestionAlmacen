@@ -123,9 +123,6 @@ object dm: Tdm
   end
   object tmovimientos: TMyTable
     TableName = 'movimientos'
-    MasterFields = 'id'
-    DetailFields = 'cliente_id'
-    MasterSource = dsclientes
     Connection = db
     Options.FieldOrigins = foNone
     Left = 136
@@ -437,5 +434,16 @@ object dm: Tdm
     DataSet = qryDetallePedido
     Left = 528
     Top = 280
+  end
+  object qryAutoIncrement: TMyQuery
+    Connection = db
+    SQL.Strings = (
+      'SELECT auto_increment'
+      'FROM information_schema.TABLES'
+      'WHERE TABLE_SCHEMA = DATABASE()'
+      'AND TABLE_NAME = '#39'productos'#39)
+    Options.FieldOrigins = foNone
+    Left = 560
+    Top = 408
   end
 end

@@ -21,19 +21,18 @@ object FMovimientos: TFMovimientos
     Height = 605
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = -8
     object pnlHeader: TPanel
       Left = 1
       Top = 1
       Width = 793
-      Height = 104
+      Height = 168
       Align = alTop
       TabOrder = 0
       object gbxBuscar: TGroupBox
         Left = 8
         Top = -1
         Width = 177
-        Height = 98
+        Height = 162
         Caption = 'Buscar Ref. '
         TabOrder = 0
         object lblReferencia: TLabel
@@ -43,9 +42,16 @@ object FMovimientos: TFMovimientos
           Height = 13
           Caption = 'Referencia :'
         end
+        object lblProductos: TLabel
+          Left = 18
+          Top = 78
+          Width = 53
+          Height = 13
+          Caption = 'Producto : '
+        end
         object btnBuscar: TButton
           Left = 18
-          Top = 64
+          Top = 134
           Width = 121
           Height = 25
           Caption = 'Buscar'
@@ -58,15 +64,22 @@ object FMovimientos: TFMovimientos
           Width = 121
           Height = 21
           TabOrder = 1
-          Text = 'Buscar referencia ...'
           OnKeyPress = edtReferenciaKeyPress
+        end
+        object cbxProducto: TComboBox
+          Left = 18
+          Top = 97
+          Width = 145
+          Height = 21
+          TabOrder = 2
+          Text = 'cbxProducto'
         end
       end
       object gbxEstadisticas: TGroupBox
-        Left = 607
+        Left = 631
         Top = -1
-        Width = 178
-        Height = 98
+        Width = 154
+        Height = 162
         Caption = 'Estad'#237'sticas '
         TabOrder = 1
         object lblMovimientosHoy: TLabel
@@ -78,7 +91,7 @@ object FMovimientos: TFMovimientos
         end
         object lblTotalMovimientos: TLabel
           Left = 27
-          Top = 27
+          Top = 21
           Width = 31
           Height = 13
           Caption = 'Total :'
@@ -87,88 +100,118 @@ object FMovimientos: TFMovimientos
       object gbxFiltros: TGroupBox
         Left = 191
         Top = -1
-        Width = 410
-        Height = 98
+        Width = 434
+        Height = 162
         Caption = 'Filtros'
         TabOrder = 2
         object lblCliente: TLabel
           Left = 16
-          Top = 21
+          Top = 67
           Width = 40
           Height = 13
           Caption = 'Cliente :'
         end
         object lblProveedor: TLabel
-          Left = 143
-          Top = 21
+          Left = 16
+          Top = 113
           Width = 57
           Height = 13
           Caption = 'Proveedor :'
         end
         object lblTipo: TLabel
-          Left = 270
+          Left = 16
           Top = 21
           Width = 27
           Height = 13
           Caption = 'Tipo :'
         end
-        object edtCliente: TEdit
-          Left = 16
-          Top = 40
-          Width = 121
-          Height = 21
-          TabOrder = 0
-          Text = 'Seleccione el cliente ...'
+        object lblFechaInicio: TLabel
+          Left = 216
+          Top = 21
+          Width = 68
+          Height = 13
+          Caption = 'Fecha desde :'
         end
-        object edtProveedor: TEdit
-          Left = 143
-          Top = 40
-          Width = 121
-          Height = 21
-          TabOrder = 1
-          Text = 'Seleccione el proveedor ...'
-        end
-        object Edit4: TEdit
-          Left = 270
-          Top = 40
-          Width = 121
-          Height = 21
-          TabOrder = 2
-          Text = 'Seleccione el tipo ...'
+        object lblFechaFin: TLabel
+          Left = 216
+          Top = 67
+          Width = 66
+          Height = 13
+          Caption = 'Fecha hasta :'
         end
         object btnAplicar: TButton
-          Left = 80
-          Top = 67
+          Left = 328
+          Top = 123
           Width = 75
           Height = 25
           Caption = 'Aplicar'
-          TabOrder = 3
+          TabOrder = 0
         end
         object btnLimpiar: TButton
-          Left = 248
-          Top = 67
+          Left = 216
+          Top = 123
           Width = 75
           Height = 25
           Caption = 'Limpiar'
+          TabOrder = 1
+          OnClick = btnLimpiarClick
+        end
+        object cbxTipoMovimiento: TComboBox
+          Left = 16
+          Top = 40
+          Width = 145
+          Height = 21
+          TabOrder = 2
+          Text = 'Seleccione el tipo de mov...'
+        end
+        object cbxClientes: TComboBox
+          Left = 16
+          Top = 86
+          Width = 145
+          Height = 21
+          TabOrder = 3
+          Text = 'Seleccione el cliente...'
+        end
+        object cbxProveedores: TComboBox
+          Left = 16
+          Top = 132
+          Width = 145
+          Height = 21
           TabOrder = 4
+          Text = 'Seleccione el proveedor...'
+        end
+        object dtpFechaInicio: TDateTimePicker
+          Left = 216
+          Top = 40
+          Width = 186
+          Height = 21
+          Date = 45943.000000000000000000
+          Time = 0.386668275459669500
+          TabOrder = 5
+        end
+        object dtpFechaFin: TDateTimePicker
+          Left = 216
+          Top = 86
+          Width = 186
+          Height = 21
+          Date = 45943.000000000000000000
+          Time = 0.388255150464829100
+          TabOrder = 6
         end
       end
     end
     object pnlGrid: TPanel
       Left = 1
-      Top = 111
+      Top = 175
       Width = 793
-      Height = 493
+      Height = 429
       Align = alBottom
       TabOrder = 1
-      ExplicitLeft = 2
-      ExplicitTop = -397
-      ExplicitWidth = 173
       object grdMovimientos: TDBGrid
         Left = 1
         Top = 1
         Width = 791
-        Height = 491
+        Height = 427
         Align = alClient
         DataSource = dm.dsmovimientos
         TabOrder = 0
@@ -191,7 +234,6 @@ object FMovimientos: TFMovimientos
           item
             Expanded = False
             FieldName = 'tipo_movimiento'
-            Width = 64
             Visible = True
           end
           item
@@ -213,6 +255,7 @@ object FMovimientos: TFMovimientos
           item
             Expanded = False
             FieldName = 'fecha_movimiento'
+            Width = 64
             Visible = True
           end
           item
