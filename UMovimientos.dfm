@@ -212,6 +212,7 @@ object FMovimientos: TFMovimientos
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
+        OnDblClick = grdMovimientosDblClick
         Columns = <
           item
             Expanded = False

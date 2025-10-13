@@ -65,6 +65,7 @@ type
       Sender: TObject;
       var Key: Word;
       Shift: TShiftState);
+    procedure grdMovimientosDblClick(Sender: TObject);
 
   private
 
@@ -75,6 +76,7 @@ type
     procedure LimpiarFiltros;
     procedure GestionarEstadoCombos;
     function GenerarWhereFiltros: string;
+    procedure AbrirDetalleMovimiento(EsNuevo: Boolean);
 
   public
     { Public declarations }
@@ -86,6 +88,8 @@ var
 implementation
 
 {$R *.dfm}
+
+uses UMovimientoDetalle;
 
 // -----------------------------------------------------------------------------
 
@@ -115,6 +119,7 @@ begin
   grdMovimientos.Options := [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines,
               dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack];
   grdMovimientos.Options := grdMovimientos.Options - [dgEditing]; // Remover opción de edición
+  grdMovimientos.OnDblClick := grdMovimientosDblClick;
 end;
 
 // -----------------------------------------------------------------------------
@@ -388,6 +393,53 @@ end;
 procedure TFMovimientos.btnLimpiarClick(Sender: TObject);
 begin
   LimpiarFiltros;
+end;
+
+// -----------------------------------------------------------------------------
+
+procedure TFMovimientos.grdMovimientosDblClick(Sender: TObject);
+begin
+  // Verificar que hay un registro seleccionado
+  if not dm.tmovimientos.IsEmpty then
+  begin
+    // Abrir el formulario de detalle en modo EDICIÓN (visualización)
+    AbrirDetalleMovimiento(False); // False = no es nuevo, es edición/visualización
+  end
+  else
+  begin
+    ShowMessage('No hay movimientos para visualizar');
+  end;
+end;
+
+procedure TFMovimientos.AbrirDetalleMovimiento(EsNuevo: Boolean);
+begin
+  FMovimientoDetalle := TFMovimientoDetalle.Create(Self);
+  try
+    FMovimientoDetalle.ModoEdicion := not EsNuevo;
+
+    if EsNuevo then
+    begin
+      // Modo nuevo movimiento
+      dm.tmovimientos.Append;
+      // Establecer valores por defecto para nuevo
+      dm.tmovimientos.FieldByName('fecha_movimiento').AsDateTime := Now;
+      dm.tmovimientos.FieldByName('tipo_movimiento').AsString := 'ENTRADA';
+      FMovimientoDetalle.Caption := 'Nuevo Movimiento';
+    end
+    else
+    begin
+      // Modo visualización/edición - el registro ya está seleccionado en el grid
+      // No necesitamos hacer dm.tmovimientos.Edit porque es solo lectura
+      FMovimientoDetalle.Caption := 'Detalle de Movimiento - ' +
+        dm.tmovimientos.FieldByName('referencia').AsString;
+    end;
+
+    // Mostrar el formulario modal
+    FMovimientoDetalle.ShowModal;
+
+  finally
+    FMovimientoDetalle.Free;
+  end;
 end;
 
 end. // END of UNIT (.pas)
