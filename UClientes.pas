@@ -25,7 +25,6 @@ type
     DBEdit4: TDBEdit;
     pnlBotones: TPanel;
     btnGuardar: TButton;
-    btnBuscar: TButton;
     pnlGrid: TPanel;
     Label6: TLabel;
     Label7: TLabel;
@@ -40,7 +39,14 @@ type
     btnActivar: TButton;
     btnDesactivar: TButton;
     btnEliminar: TButton;
-    edtBuscar: TEdit;
+
+    // Componentes de busqueda
+    btnBuscar: TButton;
+    edtBuscarID: TEdit;
+    lblBuscarID: TLabel;
+    lblBuscarNombre: TLabel;
+    edtBuscarNombre: TEdit;
+    btnLimpiarFiltros: TButton;
 
     // Procedimientos de UClientes
     procedure FormShow(Sender: TObject);
@@ -51,8 +57,17 @@ type
     procedure btnActivarClick(Sender: TObject);
     procedure btnGuardarClick(Sender: TObject);
 
+    procedure btnBuscarClick(Sender: TObject);
+    procedure btnLimpiarFiltrosClick(Sender: TObject);
+    procedure edtBuscarIDKeyPress(Sender: TObject; var Key: Char);
+    procedure edtBuscarNombreKeyPress(Sender: TObject; var Key: Char);
+
   private
+
     { Private declarations }
+    procedure AplicarFiltros;
+    procedure LimpiarFiltros;
+
   public
     { Public declarations }
   end;
@@ -100,6 +115,86 @@ begin
 end;
 
 // -----------------------------------------------------------------------------
+// -------------------- SISTEMA DE FILTRADO ------------------------------------
+// -----------------------------------------------------------------------------
+
+procedure TFClientes.AplicarFiltros;
+var
+  Filtro: string;
+begin
+  Filtro := '';
+
+  // Filtro por ID (solo si se ingresó un valor)
+  if Trim(edtBuscarID.Text) <> '' then
+  begin
+    try
+      // Validar que sea un número válido
+      StrToInt(edtBuscarID.Text);
+      Filtro := 'id = ' + edtBuscarID.Text;
+    except
+      on E: EConvertError do
+      begin
+        ShowMessage('Por favor, ingrese un ID válido (número entero)');
+        edtBuscarID.SetFocus;
+        edtBuscarID.SelectAll;
+        Exit;
+      end;
+    end;
+  end;
+
+  // Filtro por nombre (solo si se ingresó un valor)
+  if Trim(edtBuscarNombre.Text) <> '' then
+  begin
+    if Filtro <> '' then
+      Filtro := Filtro + ' AND ';
+
+    Filtro := Filtro + 'nombre LIKE ' + QuotedStr('%' + edtBuscarNombre.Text + '%');
+  end;
+
+  // Aplicar el filtro al dataset
+  dm.tclientes.Filtered := False;
+  dm.tclientes.Filter := Filtro;
+
+  if Filtro <> '' then
+    dm.tclientes.Filtered := True;
+end;
+
+procedure TFClientes.LimpiarFiltros;
+begin
+  edtBuscarID.Clear;
+  edtBuscarNombre.Clear;
+
+  dm.tclientes.Filtered := False;
+  dm.tclientes.Filter := '';
+end;
+
+procedure TFClientes.btnBuscarClick(Sender: TObject);
+begin
+  AplicarFiltros;
+end;
+
+procedure TFClientes.btnLimpiarFiltrosClick(Sender: TObject);
+begin
+  LimpiarFiltros;
+end;
+
+procedure TFClientes.edtBuscarIDKeyPress(Sender: TObject; var Key: Char);
+begin
+  // Permitir solo números, backspace y enter
+  if not (Key in ['0'..'9', #8, #13]) then
+    Key := #0
+  else if Key = #13 then  // Presionó Enter
+    AplicarFiltros;
+end;
+
+procedure TFClientes.edtBuscarNombreKeyPress(Sender: TObject; var Key: Char);
+begin
+  // Permitir búsqueda con Enter
+  if Key = #13 then
+    AplicarFiltros;
+end;
+
+// -----------------------------------------------------------------------------
 // ------------------ Logica Crear (Boton Nuevo) -------------------------------
 // -----------------------------------------------------------------------------
 
@@ -144,7 +239,7 @@ begin
         Exit;
       end;
 
-      if Trim(dm.tproductos.FieldByName('nombre').AsString) = '' then
+      if Trim(dm.tclientes.FieldByName('nombre').AsString) = '' then
       begin
         ShowMessage('El nombre es obligatorio');
         dbeNombre.SetFocus;

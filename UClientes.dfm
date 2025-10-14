@@ -2,8 +2,8 @@ object FClientes: TFClientes
   Left = 0
   Top = 0
   Caption = 'Gesti'#243'n de Clientes'
-  ClientHeight = 627
-  ClientWidth = 875
+  ClientHeight = 635
+  ClientWidth = 842
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,21 +17,25 @@ object FClientes: TFClientes
   object pnlPrincipal: TPanel
     Left = 0
     Top = 0
-    Width = 875
-    Height = 627
+    Width = 842
+    Height = 635
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 875
+    ExplicitHeight = 627
     object pnlGrid: TPanel
       Left = 1
-      Top = 254
-      Width = 873
+      Top = 262
+      Width = 840
       Height = 372
       Align = alBottom
       TabOrder = 0
+      ExplicitTop = 254
+      ExplicitWidth = 873
       object DBGrid1: TDBGrid
         Left = 1
         Top = 1
-        Width = 871
+        Width = 838
         Height = 370
         Align = alClient
         DataSource = dm.dsclientes
@@ -108,20 +112,22 @@ object FClientes: TFClientes
     object pnlDatos: TPanel
       Left = 1
       Top = 1
-      Width = 873
+      Width = 840
       Height = 216
       Align = alTop
       TabOrder = 1
+      ExplicitWidth = 873
       object gbxDatos: TGroupBox
         Left = 1
         Top = 1
-        Width = 871
+        Width = 838
         Height = 214
         Align = alClient
         Caption = 'Informaci'#243'n del Cliente'
         TabOrder = 0
         ExplicitLeft = 25
         ExplicitTop = 17
+        ExplicitWidth = 871
         object Label1: TLabel
           Left = 20
           Top = 32
@@ -237,7 +243,7 @@ object FClientes: TFClientes
         object DBMemo1: TDBMemo
           Left = 526
           Top = 23
-          Width = 323
+          Width = 299
           Height = 118
           DataField = 'direccion'
           DataSource = dm.dsclientes
@@ -246,7 +252,7 @@ object FClientes: TFClientes
         object btnMovimientos: TButton
           Left = 526
           Top = 160
-          Width = 323
+          Width = 299
           Height = 37
           Caption = '&Ver Movimientos'
           Font.Charset = DEFAULT_CHARSET
@@ -318,26 +324,61 @@ object FClientes: TFClientes
     object pnlBotones: TPanel
       Left = 1
       Top = 217
-      Width = 873
-      Height = 37
+      Width = 840
+      Height = 45
       Align = alClient
       TabOrder = 2
-      ExplicitHeight = 34
+      ExplicitLeft = 65
+      ExplicitTop = 223
+      ExplicitWidth = 873
+      ExplicitHeight = 37
+      object lblBuscarID: TLabel
+        Left = 20
+        Top = 16
+        Width = 72
+        Height = 13
+        Caption = 'Buscar por ID :'
+      end
+      object lblBuscarNombre: TLabel
+        Left = 247
+        Top = 16
+        Width = 97
+        Height = 13
+        Caption = 'Buscar por nombre :'
+      end
       object btnBuscar: TButton
-        Left = 17
+        Left = 569
         Top = 6
         Width = 75
         Height = 25
         Caption = 'Buscar'
         TabOrder = 0
+        OnClick = btnBuscarClick
       end
-      object edtBuscar: TEdit
+      object edtBuscarID: TEdit
         Left = 98
-        Top = 8
+        Top = 13
         Width = 121
         Height = 21
         TabOrder = 1
-        Text = 'edtBuscar'
+        OnKeyPress = edtBuscarIDKeyPress
+      end
+      object edtBuscarNombre: TEdit
+        Left = 350
+        Top = 13
+        Width = 121
+        Height = 21
+        TabOrder = 2
+        OnKeyPress = edtBuscarNombreKeyPress
+      end
+      object btnLimpiarFiltros: TButton
+        Left = 650
+        Top = 6
+        Width = 75
+        Height = 25
+        Caption = 'Limpiar'
+        TabOrder = 3
+        OnClick = btnLimpiarFiltrosClick
       end
     end
   end
