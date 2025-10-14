@@ -2,8 +2,8 @@ object FClientes: TFClientes
   Left = 0
   Top = 0
   Caption = 'Gesti'#243'n de Clientes'
-  ClientHeight = 623
-  ClientWidth = 892
+  ClientHeight = 627
+  ClientWidth = 875
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,31 +17,22 @@ object FClientes: TFClientes
   object pnlPrincipal: TPanel
     Left = 0
     Top = 0
-    Width = 892
-    Height = 623
+    Width = 875
+    Height = 627
     Align = alClient
     TabOrder = 0
     object pnlGrid: TPanel
       Left = 1
-      Top = 367
-      Width = 890
-      Height = 255
+      Top = 254
+      Width = 873
+      Height = 372
       Align = alBottom
       TabOrder = 0
-      object Label5: TLabel
-        Left = 1
-        Top = 1
-        Width = 888
-        Height = 13
-        Align = alTop
-        Caption = 'Lista de Clientes'
-        ExplicitWidth = 78
-      end
       object DBGrid1: TDBGrid
         Left = 1
-        Top = 14
-        Width = 888
-        Height = 240
+        Top = 1
+        Width = 871
+        Height = 370
         Align = alClient
         DataSource = dm.dsclientes
         Font.Charset = DEFAULT_CHARSET
@@ -60,46 +51,56 @@ object FClientes: TFClientes
           item
             Expanded = False
             FieldName = 'id'
+            Title.Caption = 'ID'
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'nombre'
+            Title.Caption = 'Nombre'
             Width = 128
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'contacto'
+            Title.Caption = 'Contacto'
             Width = 128
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'telefono'
+            Title.Caption = 'Telef'#243'no'
+            Width = 64
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'email'
+            Title.Caption = 'Email'
             Width = 128
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'direccion'
+            Title.Caption = 'Direcci'#243'n'
             Width = 100
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'fecha_alta'
+            Title.Caption = 'Fecha Alta'
             Width = 97
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'activo'
+            Title.Caption = 'Activo'
+            Width = 64
             Visible = True
           end>
       end
@@ -107,22 +108,22 @@ object FClientes: TFClientes
     object pnlDatos: TPanel
       Left = 1
       Top = 1
-      Width = 890
-      Height = 328
+      Width = 873
+      Height = 216
       Align = alTop
       TabOrder = 1
-      object GroupBox1: TGroupBox
+      object gbxDatos: TGroupBox
         Left = 1
         Top = 1
-        Width = 888
-        Height = 326
+        Width = 871
+        Height = 214
         Align = alClient
         Caption = 'Informaci'#243'n del Cliente'
         TabOrder = 0
-        ExplicitLeft = 0
-        ExplicitTop = 4
+        ExplicitLeft = 25
+        ExplicitTop = 17
         object Label1: TLabel
-          Left = 16
+          Left = 20
           Top = 32
           Width = 40
           Height = 13
@@ -130,14 +131,14 @@ object FClientes: TFClientes
         end
         object Label2: TLabel
           Left = 16
-          Top = 80
+          Top = 64
           Width = 44
           Height = 13
           Caption = 'Nombre :'
         end
         object Label3: TLabel
-          Left = 16
-          Top = 134
+          Left = 29
+          Top = 94
           Width = 31
           Height = 13
           Caption = 'Email :'
@@ -150,45 +151,46 @@ object FClientes: TFClientes
           Caption = 'Contacto :'
         end
         object Label6: TLabel
-          Left = 237
-          Top = 80
+          Left = 239
+          Top = 64
           Width = 49
           Height = 13
           Caption = 'Tel'#233'fono :'
         end
         object Label7: TLabel
-          Left = 237
-          Top = 134
+          Left = 251
+          Top = 108
           Width = 37
           Height = 13
           Caption = 'Activo :'
         end
         object Label8: TLabel
-          Left = 22
-          Top = 229
+          Left = 470
+          Top = 32
           Width = 50
           Height = 13
           Caption = 'Direcci'#243'n :'
         end
         object Label9: TLabel
-          Left = 16
-          Top = 184
+          Left = 7
+          Top = 128
           Width = 57
           Height = 13
           Caption = 'Fecha alta: '
         end
-        object DBEdit1: TDBEdit
+        object dbeID: TDBEdit
           Left = 79
           Top = 29
           Width = 121
           Height = 21
           DataField = 'id'
           DataSource = dm.dsclientes
+          ReadOnly = True
           TabOrder = 0
         end
-        object DBEdit2: TDBEdit
+        object dbeNombre: TDBEdit
           Left = 79
-          Top = 77
+          Top = 61
           Width = 121
           Height = 21
           DataField = 'nombre'
@@ -197,7 +199,7 @@ object FClientes: TFClientes
         end
         object DBEdit3: TDBEdit
           Left = 79
-          Top = 131
+          Top = 91
           Width = 121
           Height = 21
           DataField = 'email'
@@ -215,36 +217,37 @@ object FClientes: TFClientes
         end
         object DBEdit5: TDBEdit
           Left = 316
-          Top = 77
+          Top = 61
           Width = 121
           Height = 21
           DataField = 'telefono'
           DataSource = dm.dsclientes
           TabOrder = 4
         end
-        object DBCheckBox1: TDBCheckBox
-          Left = 318
-          Top = 133
+        object cbxActivo: TDBCheckBox
+          Left = 316
+          Top = 107
           Width = 97
           Height = 17
           DataField = 'activo'
           DataSource = dm.dsclientes
+          ReadOnly = True
           TabOrder = 5
         end
         object DBMemo1: TDBMemo
-          Left = 16
-          Top = 248
-          Width = 421
-          Height = 57
+          Left = 526
+          Top = 23
+          Width = 323
+          Height = 118
           DataField = 'direccion'
           DataSource = dm.dsclientes
           TabOrder = 6
         end
         object btnMovimientos: TButton
-          Left = 464
-          Top = 32
-          Width = 385
-          Height = 273
+          Left = 526
+          Top = 160
+          Width = 323
+          Height = 37
           Caption = '&Ver Movimientos'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -257,81 +260,84 @@ object FClientes: TFClientes
         end
         object DBEdit6: TDBEdit
           Left = 79
-          Top = 181
+          Top = 125
           Width = 121
           Height = 21
           DataField = 'fecha_alta'
           DataSource = dm.dsclientes
+          ReadOnly = True
           TabOrder = 8
+        end
+        object btnActivar: TButton
+          Left = 362
+          Top = 88
+          Width = 75
+          Height = 25
+          Caption = 'Activar'
+          TabOrder = 9
+          OnClick = btnActivarClick
+        end
+        object btnDesactivar: TButton
+          Left = 362
+          Top = 119
+          Width = 75
+          Height = 25
+          Caption = 'Desactivar'
+          TabOrder = 10
+          OnClick = btnDesactivarClick
+        end
+        object btnEliminar: TButton
+          Left = 274
+          Top = 172
+          Width = 75
+          Height = 25
+          Caption = 'Eliminar'
+          TabOrder = 11
+          OnClick = BtnEliminarClick
+        end
+        object btnGuardar: TButton
+          Left = 206
+          Top = 172
+          Width = 62
+          Height = 25
+          Caption = 'Guardar'
+          TabOrder = 12
+          OnClick = btnGuardarClick
+        end
+        object btnNuevo: TButton
+          Left = 136
+          Top = 172
+          Width = 64
+          Height = 25
+          Caption = 'Nuevo'
+          TabOrder = 13
+          OnClick = btnNuevoClick
         end
       end
     end
     object pnlBotones: TPanel
       Left = 1
-      Top = 329
-      Width = 890
-      Height = 38
+      Top = 217
+      Width = 873
+      Height = 37
       Align = alClient
       TabOrder = 2
-      object BtnGuardar: TButton
-        Left = 171
-        Top = 8
-        Width = 62
-        Height = 25
-        Caption = 'Guardar'
-        TabOrder = 0
-      end
-      object BtnNuevo: TButton
-        Left = 9
-        Top = 8
-        Width = 64
-        Height = 25
-        Caption = 'Nuevo'
-        TabOrder = 1
-        OnClick = BtnNuevoClick
-      end
-      object BtnEliminar: TButton
-        Left = 252
-        Top = 8
-        Width = 75
-        Height = 25
-        Caption = 'Eliminar'
-        TabOrder = 2
-        OnClick = BtnEliminarClick
-      end
-      object BtnEditar: TButton
-        Left = 90
-        Top = 8
-        Width = 63
-        Height = 25
-        Caption = 'Editar'
-        TabOrder = 3
-        OnClick = BtnEditarClick
-      end
-      object BtnCancelar: TButton
-        Left = 341
-        Top = 8
-        Width = 75
-        Height = 25
-        Caption = 'Cancelar'
-        TabOrder = 4
-        OnClick = BtnEliminarClick
-      end
-      object BtnBuscar: TButton
-        Left = 429
-        Top = 8
+      ExplicitHeight = 34
+      object btnBuscar: TButton
+        Left = 17
+        Top = 6
         Width = 75
         Height = 25
         Caption = 'Buscar'
-        TabOrder = 5
-        OnClick = BtnEliminarClick
+        TabOrder = 0
       end
-      object DBNavigator1: TDBNavigator
-        Left = 623
+      object edtBuscar: TEdit
+        Left = 98
         Top = 8
-        Width = 240
-        Height = 25
-        TabOrder = 6
+        Width = 121
+        Height = 21
+        TabOrder = 1
+        Text = 'edtBuscar'
       end
     end
   end

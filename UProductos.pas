@@ -45,8 +45,8 @@ type
     procedure FormShow(Sender: TObject); // Logica al cargar el formulario de productos
 
     // Logica botones
-    procedure btnNuevoClick(Sender: TObject); // Boton de nuevo producto
-    procedure btnDesactivarClick(Sender: TObject); // Boton de eliminar producto
+    procedure btnNuevoClick(Sender: TObject);
+    procedure btnDesactivarClick(Sender: TObject);
     procedure btnGuardarClick(Sender: TObject);
     procedure btnActivarClick(Sender: TObject);
 

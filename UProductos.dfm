@@ -20,10 +20,6 @@ object FProductos: TFProductos
     Height = 524
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 176
-    ExplicitTop = 96
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object pnlBotones: TPanel
       Left = 1
       Top = 225
@@ -31,7 +27,6 @@ object FProductos: TFProductos
       Height = 47
       Align = alClient
       TabOrder = 0
-      ExplicitHeight = 41
       object btnDesactivar: TButton
         Left = 280
         Top = 6
@@ -154,8 +149,6 @@ object FProductos: TFProductos
       Height = 224
       Align = alTop
       TabOrder = 2
-      ExplicitLeft = 0
-      ExplicitTop = 2
       object lblPrecioCompra: TLabel
         Left = 222
         Top = 24

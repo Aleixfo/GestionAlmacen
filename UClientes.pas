@@ -11,44 +11,45 @@ type
   TFClientes = class(TForm)
 
     // Componentes de UClientes.dfm
-    DBGrid1: TDBGrid; //Grid
-    DBNavigator1: TDBNavigator;
-    pnlDatos: TPanel; // Panel
-    BtnNuevo: TButton; // Boton de nuevo cliente
-    BtnEditar: TButton; // Boton de editar cliente existente
-    BtnEliminar: TButton;
-    GroupBox1: TGroupBox;
+    DBGrid1: TDBGrid;
+    pnlDatos: TPanel;
+    btnNuevo: TButton;
+    gbxDatos: TGroupBox;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    DBEdit1: TDBEdit;
-    DBEdit2: TDBEdit;
+    dbeID: TDBEdit;
+    dbeNombre: TDBEdit;
     DBEdit3: TDBEdit;
     DBEdit4: TDBEdit;
     pnlBotones: TPanel;
-    BtnGuardar: TButton;
-    BtnCancelar: TButton;
-    BtnBuscar: TButton;
+    btnGuardar: TButton;
+    btnBuscar: TButton;
     pnlGrid: TPanel;
-    Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
     DBEdit5: TDBEdit;
     Label8: TLabel;
-    DBCheckBox1: TDBCheckBox;
+    cbxActivo: TDBCheckBox;
     DBMemo1: TDBMemo;
     btnMovimientos: TButton;
     pnlPrincipal: TPanel;
     Label9: TLabel;
     DBEdit6: TDBEdit;
+    btnActivar: TButton;
+    btnDesactivar: TButton;
+    btnEliminar: TButton;
+    edtBuscar: TEdit;
 
     // Procedimientos de UClientes
-    procedure FormShow(Sender: TObject); // Logica al cargar el formulario de clientes
-    procedure BtnNuevoClick(Sender: TObject); // Boton de nuevo cliente
-    procedure BtnEditarClick(Sender: TObject); // Boton de editar cliente
-    procedure BtnEliminarClick(Sender: TObject); // Boton de eliminar cliente
+    procedure FormShow(Sender: TObject);
     procedure btnMovimientosClick(Sender: TObject);
+    procedure btnNuevoClick(Sender: TObject);
+    procedure BtnEliminarClick(Sender: TObject);
+    procedure btnDesactivarClick(Sender: TObject);
+    procedure btnActivarClick(Sender: TObject);
+    procedure btnGuardarClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -63,54 +64,23 @@ implementation
 
 {$R *.dfm}
 
+// -----------------------------------------------------------------------------
+// ---------------- Logica Inicial Formulario (FormShow) -----------------------
+// -----------------------------------------------------------------------------
+
 procedure TFClientes.FormShow(Sender: TObject);
 begin
-  // ¡IMPORTANTE! Asignar DataSources a los componentes
-  DBGrid1.DataSource := dm.dsclientes;
-  DBNavigator1.DataSource := dm.dsclientes;
 
   // Asegurar que la tabla está abierta
   if not dm.tclientes.Active then
     dm.tclientes.Open;
 end;
 
-procedure TFClientes.BtnNuevoClick(Sender: TObject);
-begin
-  dm.tclientes.Append;
-  // Aquí luego abriremos un formulario de edición
-  ShowMessage('Nuevo cliente - Por implementar');
-end;
+// -----------------------------------------------------------------------------
+// -------------------- Logica Ver Movimientos (Linkeo) ------------------------
+// -----------------------------------------------------------------------------
 
-procedure TFClientes.BtnEditarClick(Sender: TObject);
-begin
-  if not dm.tclientes.IsEmpty then
-    dm.tclientes.Edit
-  else
-    ShowMessage('No hay clientes para editar');
-end;
-
-procedure TFClientes.BtnEliminarClick(Sender: TObject);
-begin
-  if not dm.tclientes.IsEmpty then
-  begin
-    if MessageDlg('¿Eliminar este cliente?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-      dm.tclientes.Delete;
-  end
-  else
-    ShowMessage('No hay clientes para eliminar');
-end;
-
-{
 procedure TFClientes.btnMovimientosClick(Sender: TObject);
-begin
-  // Crear y mostrar el formulario de clientes
-  if not Assigned(FMovimientosCliente) then
-    FMovimientosCliente := TFMovimientosCliente.Create(Self);
-  FMovimientosCliente.Show;
-end;
-}
-
-procedure TFClientes.BtnMovimientosClick(Sender: TObject);
 begin
   if not dm.tclientes.IsEmpty then
   begin
@@ -129,4 +99,158 @@ begin
     ShowMessage('Por favor, seleccione un cliente primero');
 end;
 
-end.
+// -----------------------------------------------------------------------------
+// ------------------ Logica Crear (Boton Nuevo) -------------------------------
+// -----------------------------------------------------------------------------
+
+procedure TFClientes.btnNuevoClick(Sender: TObject);
+begin
+  try
+
+    // Iniciar inserción de nuevo registro
+    dm.tclientes.Append;
+
+    // Establecer valores por defecto
+    dm.tclientes.FieldByName('id').AsInteger := dm.ProximoIDCliente;
+    dm.tclientes.FieldByName('activo').AsBoolean := True;
+    dm.tclientes.FieldByName('fecha_alta').AsDateTime := Now;
+
+    // Poner foco en el primer campo
+    dbeNombre.SetFocus;
+
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Error al crear nuevo cliente: ' + E.Message);
+      dm.tclientes.Cancel;
+    end;
+  end;
+end;
+
+// -----------------------------------------------------------------------------
+// ---------------- Lógica Guardar (Botón Guardar) -----------------------------
+// -----------------------------------------------------------------------------
+
+procedure TFClientes.btnGuardarClick(Sender: TObject);
+begin
+  if dm.tclientes.State in [dsEdit, dsInsert] then
+  begin
+    try
+      // Validaciones básicas antes de guardar
+      if Trim(dm.tclientes.FieldByName('id').AsString) = '' then
+      begin
+        ShowMessage('El código es obligatorio');
+        dbeID.SetFocus;
+        Exit;
+      end;
+
+      if Trim(dm.tproductos.FieldByName('nombre').AsString) = '' then
+      begin
+        ShowMessage('El nombre es obligatorio');
+        dbeNombre.SetFocus;
+        Exit;
+      end;
+
+      // Guardar los cambios
+      dm.tclientes.Post;
+
+      ShowMessage('Cliente guardado correctamente');
+
+    except
+      on E: Exception do
+      begin
+        ShowMessage('Error al guardar: ' + E.Message);
+        dm.tclientes.Cancel;
+      end;
+    end;
+  end;
+end;
+
+// -----------------------------------------------------------------------------
+// ---------------- Lógica Eliminar (Botón Eliminar) ---------------------------
+// -----------------------------------------------------------------------------
+
+procedure TFClientes.BtnEliminarClick(Sender: TObject);
+begin
+  if not dm.tclientes.IsEmpty then
+  begin
+    if MessageDlg('¿Eliminar este cliente?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+      dm.tclientes.Delete;
+  end
+  else
+    ShowMessage('No hay clientes para eliminar');
+end;
+
+// -----------------------------------------------------------------------------
+// ---------------- Lógica Activar (Botón Activar) -----------------------------
+// -----------------------------------------------------------------------------
+
+procedure TFClientes.btnActivarClick(Sender: TObject);
+begin
+  if not dm.tclientes.IsEmpty then
+  begin
+
+    if dm.tclientes.FieldByName('activo').AsBoolean then
+    begin
+      ShowMessage('Este cliente ya está activo');
+      Exit;
+    end;
+
+    if MessageDlg('¿Activar el cliente: '
+                  + dm.tclientes.FieldByName('nombre').AsString + '?',
+                  mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    begin
+      try
+        dm.tclientes.Edit;
+        dm.tclientes.FieldByName('activo').AsBoolean := True;
+        dm.tclientes.Post;
+
+        ShowMessage('Cliente activado correctamente');
+
+      except
+        on E: Exception do
+          ShowMessage('Error al activar: ' + E.Message);
+      end;
+    end;
+  end
+  else
+    ShowMessage('No hay clientes para activar');
+end;
+
+// -----------------------------------------------------------------------------
+// ---------------- Lógica Desactivar (Botón Desactivar) -----------------------
+// -----------------------------------------------------------------------------
+
+procedure TFClientes.btnDesactivarClick(Sender: TObject);
+begin
+  if not dm.tclientes.IsEmpty then
+  begin
+
+    if not dm.tclientes.FieldByName('activo').AsBoolean then
+    begin
+      ShowMessage('Este cliente ya está dado de baja');
+      Exit;
+    end;
+
+    if MessageDlg('¿Dar de baja el cliente: '
+                  + dm.tclientes.FieldByName('nombre').AsString + '?',
+                  mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    begin
+      try
+        dm.tclientes.Edit;
+        dm.tclientes.FieldByName('activo').AsBoolean := False;
+        dm.tclientes.Post;
+
+        ShowMessage('Cliente dado de baja correctamente');
+
+      except
+        on E: Exception do
+          ShowMessage('Error al dar de baja: ' + E.Message);
+      end;
+    end;
+  end
+  else
+    ShowMessage('No hay clientes para dar de baja');
+end;
+
+end. // END of FILE (.pas)

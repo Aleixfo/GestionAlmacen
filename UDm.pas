@@ -3,7 +3,8 @@ unit UDm;
 interface
 
 uses
-  System.SysUtils, System.Classes, Data.DB, MemDS, DBAccess, MyAccess, Vcl.Dialogs;
+  System.SysUtils, System.Classes, Data.DB, MemDS, DBAccess, MyAccess,
+  Vcl.Dialogs, Database.Utils;
 
 type
   Tdm = class(TDataModule)
@@ -112,6 +113,8 @@ type
 
   private
     { Private declarations }
+    FDBUtils: TDatabaseUtils;
+    function GetDBUtils: TDatabaseUtils;
   public
     { Public declarations }
 
@@ -124,6 +127,15 @@ type
 
     // Funciones
     function EstaConectado: Boolean;
+
+    destructor Destroy; override;
+
+    function ProximoIDProducto: Integer;
+    function ProximoIDCliente: Integer;
+    function ProximoIDProveedor: Integer;
+
+     // Propiedad para acceso directo a todas las utilidades
+    property DBUtils: TDatabaseUtils read GetDBUtils;
 
   end;
 

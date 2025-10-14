@@ -2,8 +2,8 @@ object FMain: TFMain
   Left = 0
   Top = 0
   Caption = 'Gestion Almac'#233'n'
-  ClientHeight = 417
-  ClientWidth = 552
+  ClientHeight = 280
+  ClientWidth = 825
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object FMain: TFMain
   TextHeight = 13
   object btnClientes: TButton
     Left = 8
-    Top = 8
+    Top = 9
     Width = 265
     Height = 129
     Hint = 'Gesti'#243'n de clientes'
@@ -27,8 +27,8 @@ object FMain: TFMain
   end
   object BtnProveedores: TButton
     Left = 279
-    Top = 8
-    Width = 264
+    Top = 9
+    Width = 265
     Height = 129
     Hint = 'Gesti'#243'n de proveedores'
     Caption = '&Proveedores'
@@ -36,8 +36,8 @@ object FMain: TFMain
     OnClick = BtnProveedoresClick
   end
   object BtnProductos: TButton
-    Left = 8
-    Top = 143
+    Left = 551
+    Top = 8
     Width = 265
     Height = 130
     Hint = 'Gesti'#243'n de productos'
@@ -47,7 +47,7 @@ object FMain: TFMain
   end
   object btnMovimientos: TButton
     Left = 279
-    Top = 143
+    Top = 144
     Width = 266
     Height = 130
     Hint = 'Registro de movimientos'
@@ -56,8 +56,8 @@ object FMain: TFMain
     OnClick = btnMovimientosClick
   end
   object btnPedidos: TButton
-    Left = 279
-    Top = 279
+    Left = 551
+    Top = 144
     Width = 265
     Height = 130
     Caption = '&Pedidos'
@@ -66,7 +66,7 @@ object FMain: TFMain
   end
   object btnOperar: TButton
     Left = 8
-    Top = 279
+    Top = 144
     Width = 265
     Height = 130
     Caption = '&Operar (Compra/Venta)'
