@@ -71,6 +71,6 @@ object FMain: TFMain
     Height = 130
     Caption = '&Operar (Compra/Venta)'
     TabOrder = 5
-    OnClick = btnPedidosClick
+    OnClick = btnOperarClick
   end
 end

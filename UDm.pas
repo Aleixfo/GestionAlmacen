@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, Data.DB, MemDS, DBAccess, MyAccess,
-  Vcl.Dialogs, Database.Utils;
+  Vcl.Dialogs, Database.Utils, Datasnap.DBClient;
 
 type
   Tdm = class(TDataModule)
@@ -105,16 +105,37 @@ type
     qryDetallePedidoproveedor: TStringField;
     qryDetallePedidocliente: TStringField;
     qryAutoIncrement: TMyQuery;
+
+
+    // Formulario de Operaciones
+    // Tabla temporal (TClientDataSet) y sus campos
+    tdetalles_temp: TClientDataSet;
+    tdetalles_tempproducto_id: TIntegerField;
+    tdetalles_tempnombre: TStringField;
+    tdetalles_tempcantidad: TIntegerField;
+    tdetalles_tempprecio: TFloatField;
+    tdetalles_tempsubtotal: TFloatField;
+
+    procedure DataModuleCreate(Sender: TObject);
+
+
     procedure qryMovimientosProveedorCalcFields(DataSet: TDataSet);
     procedure qryMovimientosClientetotalGetText(Sender: TField;
       var Text: string; DisplayText: Boolean);
     procedure qryMovimientosClienteproducto_precioGetText(Sender: TField;
       var Text: string; DisplayText: Boolean);
 
+
+
+
+
   private
     { Private declarations }
     FDBUtils: TDatabaseUtils;
     function GetDBUtils: TDatabaseUtils;
+
+
+
   public
     { Public declarations }
 
@@ -124,6 +145,8 @@ type
 
     procedure AbrirTablas; // Abre todas las tablas juntas
     procedure CerrarTablas; // Cierra todas las tablas juntas
+
+    procedure CrearTablaTemporal;
 
     // Funciones
     function EstaConectado: Boolean;
@@ -147,6 +170,59 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
+
+procedure Tdm.DataModuleCreate(Sender: TObject);
+begin
+  CrearTablaTemporal;
+end;
+
+procedure Tdm.CrearTablaTemporal;
+begin
+  // Liberar si ya existe
+  if Assigned(tdetalles_temp) then
+    FreeAndNil(tdetalles_temp);
+
+  // Crear nueva instancia
+  tdetalles_temp := TClientDataSet.Create(nil);
+
+  // Crear campos
+  with TIntegerField.Create(tdetalles_temp) do
+  begin
+    FieldName := 'producto_id';
+    DataSet := tdetalles_temp;
+  end;
+
+  with TStringField.Create(tdetalles_temp) do
+  begin
+    FieldName := 'nombre';
+    Size := 100;
+    DataSet := tdetalles_temp;
+  end;
+
+  with TIntegerField.Create(tdetalles_temp) do
+  begin
+    FieldName := 'cantidad';
+    DataSet := tdetalles_temp;
+  end;
+
+  with TFloatField.Create(tdetalles_temp) do
+  begin
+    FieldName := 'precio';
+    DataSet := tdetalles_temp;
+  end;
+
+  with TFloatField.Create(tdetalles_temp) do
+  begin
+    FieldName := 'subtotal';
+    DataSet := tdetalles_temp;
+  end;
+
+  // Crear el dataset
+  tdetalles_temp.CreateDataSet;
+
+  // Activar
+  tdetalles_temp.Active := True;
+end;
 
 // Procedimiento de conexion con la BBDD
 procedure Tdm.ConectarBD;
@@ -293,6 +369,37 @@ begin
     Text := Format('%.2f €', [Sender.AsFloat])
   else
     Text := '0.00 €';
+end;
+
+// -----------------------------------------------------------------------------
+
+destructor Tdm.Destroy;
+begin
+  if Assigned(FDBUtils) then
+    FDBUtils.Free;
+  inherited;
+end;
+
+function Tdm.GetDBUtils: TDatabaseUtils;
+begin
+  if not Assigned(FDBUtils) then
+    FDBUtils := TDatabaseUtils.Create(qryAutoIncrement);
+  Result := FDBUtils;
+end;
+
+function Tdm.ProximoIDProducto: Integer;
+begin
+  Result := DBUtils.ObtenerProximoID('productos');
+end;
+
+function Tdm.ProximoIDCliente: Integer;
+begin
+  Result := DBUtils.ObtenerProximoID('clientes');
+end;
+
+function Tdm.ProximoIDProveedor: Integer;
+begin
+  Result := DBUtils.ObtenerProximoID('proveedores');
 end;
 
 end. // End final de la unidad

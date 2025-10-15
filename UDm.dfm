@@ -1,5 +1,6 @@
 object dm: Tdm
   OldCreateOrder = False
+  OnCreate = DataModuleCreate
   Height = 517
   Width = 757
   object db: TMyConnection
@@ -445,5 +446,27 @@ object dm: Tdm
     Options.FieldOrigins = foNone
     Left = 560
     Top = 408
+  end
+  object tdetalles_temp: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 592
+    Top = 48
+    object tdetalles_tempproducto_id: TIntegerField
+      FieldName = 'producto_id'
+    end
+    object tdetalles_tempnombre: TStringField
+      FieldName = 'nombre'
+      Size = 50
+    end
+    object tdetalles_tempcantidad: TIntegerField
+      FieldName = 'cantidad'
+    end
+    object tdetalles_tempprecio: TFloatField
+      FieldName = 'precio'
+    end
+    object tdetalles_tempsubtotal: TFloatField
+      FieldName = 'subtotal'
+    end
   end
 end

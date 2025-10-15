@@ -22,6 +22,7 @@ type
     procedure BtnProductosClick(Sender: TObject);
     procedure btnMovimientosClick(Sender: TObject);
     procedure btnPedidosClick(Sender: TObject);
+    procedure btnOperarClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -40,7 +41,8 @@ uses UClientes,
      UProveedores,
      UProductos,
      UMovimientos,
-     UPedidos;
+     UPedidos,
+     UOperaciones;
 
 // Procedimiento con la logica que se ejecuta cuando se crea el formulario principal (UMain)
 procedure TFMain.FormCreate(Sender: TObject);
@@ -107,6 +109,16 @@ begin
   if not Assigned(FPedidos) then
     FPedidos := TFPedidos.Create(Self);
   FPedidos.Show;
+end;
+
+procedure TFMain.btnOperarClick(Sender: TObject);
+begin
+  // Siempre crear nueva instancia
+  if Assigned(FOperaciones) then
+    FOperaciones.Free;
+
+  FOperaciones := TFOperaciones.Create(Self);
+  FOperaciones.Show;
 end;
 
 end.
