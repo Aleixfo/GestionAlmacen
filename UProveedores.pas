@@ -97,7 +97,7 @@ if not dm.tproveedores.IsEmpty then
     // Crear y mostrar el formulario de movimientos
     with TFMovimientosProveedor.Create(Self) do
     try
-      // Pasar el ID y nombre del cliente seleccionado
+      // Pasar el ID y nombre del proveedor seleccionado
       ProveedorID := dm.tproveedores.FieldByName('id').AsInteger;
       ProveedorNombre := dm.tproveedores.FieldByName('nombre').AsString;
       ShowModal;
@@ -264,11 +264,11 @@ procedure TFProveedores.BtnEliminarClick(Sender: TObject);
 begin
   if not dm.tproveedores.IsEmpty then
   begin
-    if MessageDlg('¿Eliminar este cliente?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    if MessageDlg('¿Eliminar este proveedor?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
       dm.tproveedores.Delete;
   end
   else
-    ShowMessage('No hay clientes para eliminar');
+    ShowMessage('No hay proveedores para eliminar');
 end;
 
 // -----------------------------------------------------------------------------
@@ -318,11 +318,11 @@ begin
 
     if not dm.tproveedores.FieldByName('activo').AsBoolean then
     begin
-      ShowMessage('Este cliente ya está dado de baja');
+      ShowMessage('Este proveedor ya está dado de baja');
       Exit;
     end;
 
-    if MessageDlg('¿Dar de baja el cliente: '
+    if MessageDlg('¿Dar de baja el proveedor: '
                   + dm.tproveedores.FieldByName('nombre').AsString + '?',
                   mtConfirmation, [mbYes, mbNo], 0) = mrYes then
     begin
@@ -331,7 +331,7 @@ begin
         dm.tproveedores.FieldByName('activo').AsBoolean := False;
         dm.tproveedores.Post;
 
-        ShowMessage('Cliente dado de baja correctamente');
+        ShowMessage('Proveedor dado de baja correctamente');
 
       except
         on E: Exception do
@@ -340,7 +340,7 @@ begin
     end;
   end
   else
-    ShowMessage('No hay clientes para dar de baja');
+    ShowMessage('No hay proveedores para dar de baja');
 end;
 
 

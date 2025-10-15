@@ -9,7 +9,6 @@ uses
 
 type
   TFProductos = class(TForm)
-    navGrid: TDBNavigator;
     pnlMain: TPanel;
     grdProductos: TDBGrid;
     pnlBotones: TPanel;
@@ -40,20 +39,33 @@ type
     dbeFechaMod: TDBEdit;
     dbmDescripcion: TDBMemo;
     dbcbActivo: TDBCheckBox;
+    btnEliminar: TButton;
+    lblBuscarID: TLabel;
+    lblBuscarNombre: TLabel;
+    btnBuscar: TButton;
+    btnLimpiarFiltros: TButton;
+    edtBuscarID: TEdit;
+    edtBuscarNombre: TEdit;
 
     // Procedimientos de UProductos
     procedure FormShow(Sender: TObject); // Logica al cargar el formulario de productos
 
     // Logica botones
     procedure btnNuevoClick(Sender: TObject);
-    procedure btnDesactivarClick(Sender: TObject);
     procedure btnGuardarClick(Sender: TObject);
+    procedure btnDesactivarClick(Sender: TObject);
     procedure btnActivarClick(Sender: TObject);
+    procedure btnEliminarClick(Sender: TObject);
+    procedure btnBuscarClick(Sender: TObject);
+    procedure btnLimpiarFiltrosClick(Sender: TObject);
+    procedure edtBuscarIDKeyPress(Sender: TObject; var Key: Char);
+    procedure edtBuscarNombreKeyPress(Sender: TObject; var Key: Char);
 
   private
 
     { Private declarations }
-    function ObtenerProximoIDProducto: Integer;
+    procedure AplicarFiltros;
+    procedure LimpiarFiltros;
 
   public
     { Public declarations }
@@ -66,34 +78,110 @@ implementation
 
 {$R *.dfm}
 
+// -----------------------------------------------------------------------------
+// ---------------- Logica Inicial Formulario (FormShow) -----------------------
+// -----------------------------------------------------------------------------
+
 procedure TFProductos.FormShow(Sender: TObject);
 begin
-  // ¡IMPORTANTE! Asignar DataSources a los componentes
-  grdProductos.DataSource := dm.dsproductos;
-  navGrid.DataSource := dm.dsproductos;
-
   // Asegurar que la tabla está abierta
   if not dm.tproductos.Active then
     dm.tproductos.Open;
 end;
 
-procedure TFProductos.btnNuevoClick(Sender: TObject);
+// -----------------------------------------------------------------------------
+// -------------------- SISTEMA DE FILTRADO ------------------------------------
+// -----------------------------------------------------------------------------
+
+procedure TFProductos.AplicarFiltros;
 var
-  ProximoID: Integer;
+  Filtro: string;
+begin
+  Filtro := '';
+
+  // Filtro por ID (solo si se ingresó un valor)
+  if Trim(edtBuscarID.Text) <> '' then
+  begin
+    try
+      // Validar que sea un número válido
+      StrToInt(edtBuscarID.Text);
+      Filtro := 'id = ' + edtBuscarID.Text;
+    except
+      on E: EConvertError do
+      begin
+        ShowMessage('Por favor, ingrese un ID válido (número entero)');
+        edtBuscarID.SetFocus;
+        edtBuscarID.SelectAll;
+        Exit;
+      end;
+    end;
+  end;
+
+  // Filtro por nombre (solo si se ingresó un valor)
+  if Trim(edtBuscarNombre.Text) <> '' then
+  begin
+    if Filtro <> '' then
+      Filtro := Filtro + ' AND ';
+
+    Filtro := Filtro + 'nombre LIKE ' + QuotedStr('%' + edtBuscarNombre.Text + '%');
+  end;
+
+  // Aplicar el filtro al dataset
+  dm.tproductos.Filtered := False;
+  dm.tproductos.Filter := Filtro;
+
+  if Filtro <> '' then
+    dm.tproductos.Filtered := True;
+end;
+
+procedure TFProductos.LimpiarFiltros;
+begin
+  edtBuscarID.Clear;
+  edtBuscarNombre.Clear;
+
+  dm.tproductos.Filtered := False;
+  dm.tproductos.Filter := '';
+end;
+
+procedure TFProductos.btnBuscarClick(Sender: TObject);
+begin
+  AplicarFiltros;
+end;
+
+procedure TFProductos.btnLimpiarFiltrosClick(Sender: TObject);
+begin
+  LimpiarFiltros;
+end;
+
+procedure TFProductos.edtBuscarIDKeyPress(Sender: TObject; var Key: Char);
+begin
+  // Permitir solo números, backspace y enter
+  if not (Key in ['0'..'9', #8, #13]) then
+    Key := #0
+  else if Key = #13 then  // Presionó Enter
+    AplicarFiltros;
+end;
+
+procedure TFProductos.edtBuscarNombreKeyPress(Sender: TObject; var Key: Char);
+begin
+  // Permitir búsqueda con Enter
+  if Key = #13 then
+    AplicarFiltros;
+end;
+
+// -----------------------------------------------------------------------------
+// ---------------- Lógica Nuevo (Botón Nuevo) ---------------------------------
+// -----------------------------------------------------------------------------
+
+procedure TFProductos.btnNuevoClick(Sender: TObject);
 begin
   try
-
-    // Obtener el próximo ID autoincremental
-    ProximoID := ObtenerProximoIDProducto;
 
     // Iniciar inserción de nuevo registro
     dm.tproductos.Append;
 
-    // Aquí luego abriremos un formulario de edición
-    {ShowMessage('Nuevo proveedor - Por implementar');}
-
     // Establecer valores por defecto
-    dm.tproductos.FieldByName('id').AsInteger := ProximoID; // ← Esto es SOLO visual
+    dm.tproductos.FieldByName('id').AsInteger := dm.ProximoIDProducto;
     dm.tproductos.FieldByName('activo').AsBoolean := True;
     dm.tproductos.FieldByName('stock_actual').AsInteger := 0;
     dm.tproductos.FieldByName('precio_compra').AsFloat := 0.00;
@@ -112,6 +200,10 @@ begin
   end;
 
 end;
+
+// -----------------------------------------------------------------------------
+// ---------------- Lógica Guardar (Botón Guardar) -----------------------------
+// -----------------------------------------------------------------------------
 
 procedure TFProductos.btnGuardarClick(Sender: TObject);
 begin
@@ -149,6 +241,25 @@ begin
   end;
 end;
 
+// -----------------------------------------------------------------------------
+// ---------------- Lógica Eliminar (Botón Eliminar) ---------------------------
+// -----------------------------------------------------------------------------
+
+procedure TFProductos.BtnEliminarClick(Sender: TObject);
+begin
+  if not dm.tproductos.IsEmpty then
+  begin
+    if MessageDlg('¿Eliminar este producto?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+      dm.tproductos.Delete;
+  end
+  else
+    ShowMessage('No hay productos para eliminar');
+end;
+
+// -----------------------------------------------------------------------------
+// ---------------- Lógica Activar (Botón Activar) -----------------------------
+// -----------------------------------------------------------------------------
+
 procedure TFProductos.btnActivarClick(Sender: TObject);
 begin
   if not dm.tproductos.IsEmpty then
@@ -180,6 +291,10 @@ begin
   else
     ShowMessage('No hay productos para activar');
 end;
+
+// -----------------------------------------------------------------------------
+// ---------------- Lógica Desactivar (Botón Desactivar) -----------------------
+// -----------------------------------------------------------------------------
 
 procedure TFProductos.btnDesactivarClick(Sender: TObject);
 begin
@@ -213,43 +328,9 @@ begin
     ShowMessage('No hay productos para eliminar');
 end;
 
-function TFProductos.ObtenerProximoIDProducto: Integer;
-begin
-  Result := 0;
-
-  try
-    with dm.qryAutoIncrement do  // Usa una query auxiliar de tu DataModule
-    begin
-
-      Close;
-      Open;
-
-      // Consulta para MySQL - obtiene el próximo AUTO_INCREMENT
-      {SQL.Text := 'SELECT AUTO_INCREMENT ' +
-                  'FROM information_schema.TABLES ' +
-                  'WHERE TABLE_SCHEMA = DATABASE() ' +
-                  'AND TABLE_NAME = ''productos''';}
-
-      if not IsEmpty then
-        Result := FieldByName('AUTO_INCREMENT').AsInteger
-      else
-        Result := 0;
-
-      Close;
-    end;
-
-    // Si no se pudo obtener, mostrar 0
-    if Result = 0 then
-      Result := 0; // O podrías calcularlo de otra forma
-
-  except
-    on E: Exception do
-    begin
-      ShowMessage('Advertencia: No se pudo obtener el próximo ID. ' + E.Message);
-      Result := 0;
-    end;
-  end;
-end;
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 end.// END OF .PAS
 

@@ -27,49 +27,55 @@ object FProductos: TFProductos
       Height = 47
       Align = alClient
       TabOrder = 0
-      object btnDesactivar: TButton
-        Left = 280
-        Top = 6
+      ExplicitLeft = 17
+      ExplicitTop = 220
+      object lblBuscarID: TLabel
+        Left = 28
+        Top = 18
+        Width = 72
+        Height = 13
+        Caption = 'Buscar por ID :'
+      end
+      object lblBuscarNombre: TLabel
+        Left = 256
+        Top = 18
+        Width = 97
+        Height = 13
+        Caption = 'Buscar por nombre :'
+      end
+      object btnBuscar: TButton
+        Left = 507
+        Top = 12
         Width = 75
         Height = 25
-        Caption = 'Desactivar'
+        Caption = 'Buscar'
         TabOrder = 0
-        OnClick = btnDesactivarClick
+        OnClick = btnBuscarClick
       end
-      object btnNuevo: TButton
-        Left = 13
-        Top = 6
+      object btnLimpiarFiltros: TButton
+        Left = 588
+        Top = 12
         Width = 75
         Height = 25
-        Caption = 'Nuevo'
+        Caption = 'Limpiar'
         TabOrder = 1
-        OnClick = btnNuevoClick
+        OnClick = btnLimpiarFiltrosClick
       end
-      object btnActivar: TButton
-        Left = 199
-        Top = 6
-        Width = 75
-        Height = 25
-        Caption = 'Activar'
+      object edtBuscarID: TEdit
+        Left = 106
+        Top = 15
+        Width = 121
+        Height = 21
         TabOrder = 2
-        OnClick = btnActivarClick
+        OnKeyPress = edtBuscarIDKeyPress
       end
-      object btnGuardar: TButton
-        Left = 94
-        Top = 6
-        Width = 75
-        Height = 25
-        Caption = 'Guardar'
+      object edtBuscarNombre: TEdit
+        Left = 359
+        Top = 15
+        Width = 121
+        Height = 21
         TabOrder = 3
-        OnClick = btnGuardarClick
-      end
-      object navGrid: TDBNavigator
-        Left = 451
-        Top = 8
-        Width = 240
-        Height = 25
-        DataSource = dm.dsproductos
-        TabOrder = 4
+        OnKeyPress = edtBuscarNombreKeyPress
       end
     end
     object pnlGrid: TPanel
@@ -96,48 +102,57 @@ object FProductos: TFProductos
           item
             Expanded = False
             FieldName = 'id'
+            Title.Caption = 'ID'
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'codigo'
+            Title.Caption = 'C'#243'digo'
             Width = 60
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'nombre'
+            Title.Caption = 'Nombre'
             Width = 100
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'precio_compra'
+            Title.Caption = 'Precio Compra'
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'precio_venta'
+            Title.Caption = 'Precio Venta'
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'stock_actual'
+            Title.Caption = 'Stock'
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'activo'
+            Title.Caption = 'Activo'
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'fecha_alta'
+            Title.Caption = 'Fecha Alta'
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'fecha_actualizacion'
+            Title.Caption = 'Fecha Ult. Act.'
             Visible = True
           end>
       end
@@ -149,6 +164,7 @@ object FProductos: TFProductos
       Height = 224
       Align = alTop
       TabOrder = 2
+      ExplicitTop = 3
       object lblPrecioCompra: TLabel
         Left = 222
         Top = 24
@@ -164,15 +180,15 @@ object FProductos: TFProductos
         Caption = 'Precio Venta :'
       end
       object lblStock: TLabel
-        Left = 470
+        Left = 231
         Top = 104
         Width = 66
         Height = 13
         Caption = 'Stock Actual :'
       end
       object lblActivo: TLabel
-        Left = 261
-        Top = 104
+        Left = 499
+        Top = 116
         Width = 37
         Height = 13
         Caption = 'Activo :'
@@ -266,7 +282,7 @@ object FProductos: TFProductos
         TabOrder = 4
       end
       object dbeStock: TDBEdit
-        Left = 543
+        Left = 303
         Top = 101
         Width = 121
         Height = 21
@@ -298,21 +314,66 @@ object FProductos: TFProductos
       object dbmDescripcion: TDBMemo
         Left = 28
         Top = 155
-        Width = 288
+        Width = 301
         Height = 54
         DataField = 'descripcion'
         DataSource = dm.dsproductos
         TabOrder = 8
       end
       object dbcbActivo: TDBCheckBox
-        Left = 304
-        Top = 103
+        Left = 542
+        Top = 115
         Width = 97
         Height = 17
         DataField = 'activo'
         DataSource = dm.dsproductos
         ReadOnly = True
         TabOrder = 9
+      end
+      object btnActivar: TButton
+        Left = 588
+        Top = 88
+        Width = 75
+        Height = 25
+        Caption = 'Activar'
+        TabOrder = 10
+        OnClick = btnActivarClick
+      end
+      object btnDesactivar: TButton
+        Left = 588
+        Top = 119
+        Width = 75
+        Height = 25
+        Caption = 'Desactivar'
+        TabOrder = 11
+        OnClick = btnDesactivarClick
+      end
+      object btnGuardar: TButton
+        Left = 462
+        Top = 166
+        Width = 75
+        Height = 25
+        Caption = 'Guardar'
+        TabOrder = 12
+        OnClick = btnGuardarClick
+      end
+      object btnNuevo: TButton
+        Left = 381
+        Top = 166
+        Width = 75
+        Height = 25
+        Caption = 'Nuevo'
+        TabOrder = 13
+        OnClick = btnNuevoClick
+      end
+      object btnEliminar: TButton
+        Left = 543
+        Top = 166
+        Width = 75
+        Height = 25
+        Caption = 'Eliminar'
+        TabOrder = 14
+        OnClick = btnEliminarClick
       end
     end
   end
