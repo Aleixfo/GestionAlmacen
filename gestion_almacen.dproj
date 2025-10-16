@@ -141,6 +141,11 @@
             <Form>FMovimientoDetalle</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Database.Utils.pas"/>
+        <DCCReference Include="UOperaciones.pas">
+            <Form>FOperaciones</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

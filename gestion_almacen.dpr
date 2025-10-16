@@ -11,7 +11,9 @@ uses
   UMovimientosCliente in 'UMovimientosCliente.pas' {FMovimientosCliente},
   UMovimientosProveedor in 'UMovimientosProveedor.pas' {FMovimientosProveedor},
   UPedidos in 'UPedidos.pas' {FPedidos},
-  UMovimientoDetalle in 'UMovimientoDetalle.pas' {FMovimientoDetalle};
+  UMovimientoDetalle in 'UMovimientoDetalle.pas' {FMovimientoDetalle},
+  Database.Utils in 'Database.Utils.pas',
+  UOperaciones in 'UOperaciones.pas' {FOperaciones};
 
 {$R *.res}
 
@@ -28,5 +30,6 @@ begin
   Application.CreateForm(TFMovimientosProveedor, FMovimientosProveedor);
   Application.CreateForm(TFPedidos, FPedidos);
   Application.CreateForm(TFMovimientoDetalle, FMovimientoDetalle);
+  Application.CreateForm(TFOperaciones, FOperaciones);
   Application.Run;
 end.

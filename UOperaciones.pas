@@ -58,6 +58,29 @@ type
     btnAtrasProductos: TButton;
     btnSiguienteProductos: TButton;
     dsDetallesTemp: TDataSource;
+    tsConfirmacion: TTabSheet;
+    pnlConfirmacionMain: TPanel;
+    gbxResumenCabecera: TGroupBox;
+    lblResumenTipoTexto: TLabel;
+    lblResumenProveedorClienteTexto: TLabel;
+    lblResumenReferenciaTexto: TLabel;
+    lblResumenFechaTexto: TLabel;
+    lblResumenObservacionesTexto: TLabel;
+    lblResumenTipo: TLabel;
+    lblResumenProveedorCliente: TLabel;
+    lblResumenReferencia: TLabel;
+    lblResumenFecha: TLabel;
+    lblResumenObservaciones: TLabel;
+    gbxResumenDetalles: TGroupBox;
+    DBGridResumen: TDBGrid;
+    gbxResumenTotales: TGroupBox;
+    lblSubtotalResumen: TLabel;
+    lblTotalResumen: TLabel;
+    edtTotalResumen: TEdit;
+    edtSubtotalResumen: TEdit;
+    Panel1: TPanel;
+    btnAtrasResumen: TButton;
+    btnConfirmarOperacion: TButton;
 
     procedure btnContinuarClick(Sender: TObject);
     procedure btnAtrasClick(Sender: TObject);
@@ -71,6 +94,9 @@ type
     procedure btnBuscarProductoClick(Sender: TObject);
     procedure edtCantidadChange(Sender: TObject);
 
+    procedure btnAtrasResumenClick(Sender: TObject);
+    procedure btnConfirmarOperacionClick(Sender: TObject);
+
   private
     { Private declarations }
 
@@ -80,6 +106,8 @@ type
     FProductoSeleccionadoID: Integer;
     FProductoSeleccionadoNombre: string;
     FProductoSeleccionadoPrecio: Double;
+    FProveedorClienteID: Integer;
+    FProveedorClienteNombre: string;
 
     // Métodos para la segunda pestaña
     procedure ConfigurarInterfazDatos;
@@ -98,6 +126,13 @@ type
     procedure CalcularSubtotal;
     function ProductoYaEnLista(ProductoID: Integer): Boolean;
     function ValidarProductosAgregados: Boolean;
+
+    // Métodos para la cuarta pestaña
+    procedure ConfigurarInterfazConfirmacion;
+    procedure MostrarResumenCabecera;
+    procedure CalcularTotalesResumen;
+    procedure ProcesarOperacion;
+    function ValidarStockParaVenta: Boolean;
 
   public
     { Public declarations }
@@ -297,7 +332,6 @@ begin
   Result := True;
 end;
 
-
 // -----------------------------------------------------------------------------
 // ------------------- LOGICA TERCERA PESTAÑA ----------------------------------
 // -----------------------------------------------------------------------------
@@ -315,8 +349,18 @@ begin
   if not ValidarProductosAgregados then
     Exit;
 
-  ShowMessage('Productos validados. Próximo: Confirmación');
-  // Aquí iríamos a la cuarta pestaña (confirmación)
+  // Guardar datos del proveedor/cliente seleccionado
+  if cbxProveedorCliente.ItemIndex > 0 then
+  begin
+    FProveedorClienteID := Integer(cbxProveedorCliente.Items.Objects[cbxProveedorCliente.ItemIndex]);
+    FProveedorClienteNombre := cbxProveedorCliente.Text;
+  end;
+
+  // Configurar y mostrar resumen
+  ConfigurarInterfazConfirmacion;
+
+  // Ir a la cuarta pestaña
+  pcOperaciones.ActivePage := tsConfirmacion;
 end;
 
 // -----------------------------------------------------------------------------
@@ -563,7 +607,192 @@ begin
   Result := True;
 end;
 
+// -----------------------------------------------------------------------------
+// ------------------- LOGICA CUARTA PESTAÑA -----------------------------------
+// -----------------------------------------------------------------------------
 
+procedure TFOperaciones.btnConfirmarOperacionClick(Sender: TObject);
+begin
+  if MessageDlg('¿Confirmar la operación? Esta acción no se puede deshacer.',
+                mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+    // Validar stock para ventas
+    if FTipoOperacion = toVenta then
+    begin
+      if not ValidarStockParaVenta then
+        Exit;
+    end;
+
+    // Procesar la operación
+    ProcesarOperacion;
+
+    ShowMessage('Operación realizada correctamente');
+    Close;
+  end;
+end;
+
+procedure TFOperaciones.btnAtrasResumenClick(Sender: TObject);
+begin
+  // Volver a productos
+  pcOperaciones.ActivePage := tsAgregarProductos;
+end;
+
+procedure TFOperaciones.ConfigurarInterfazConfirmacion;
+begin
+  // Mostrar datos de cabecera
+  MostrarResumenCabecera;
+
+  // Calcular y mostrar totales
+  CalcularTotalesResumen;
+end;
+
+procedure TFOperaciones.MostrarResumenCabecera;
+begin
+  // Configurar según tipo de operación
+  case FTipoOperacion of
+    toCompra:
+    begin
+      lblResumenTipo.Caption := 'COMPRA';
+      lblResumenProveedorClienteTexto.Caption := 'Proveedor:';
+    end;
+    toVenta:
+    begin
+      lblResumenTipo.Caption := 'VENTA';
+      lblResumenProveedorClienteTexto.Caption := 'Cliente:';
+    end;
+  end;
+
+  // Mostrar datos
+  lblResumenProveedorCliente.Caption := FProveedorClienteNombre;
+  lblResumenReferencia.Caption := edtReferencia.Text;
+  lblResumenFecha.Caption := DateToStr(dtpFecha.Date);
+
+  if Trim(memObservaciones.Text) <> '' then
+    lblResumenObservaciones.Caption := memObservaciones.Text
+  else
+    lblResumenObservaciones.Caption := '(Sin observaciones)';
+end;
+
+procedure TFOperaciones.CalcularTotalesResumen;
+var
+  Subtotal: Double;
+begin
+  Subtotal := 0;
+
+  with dm.tdetalles_temp do
+  begin
+    First;
+    while not Eof do
+    begin
+      Subtotal := Subtotal + FieldByName('subtotal').AsFloat;
+      Next;
+    end;
+  end;
+
+  // Mostrar totales (por ahora sin IVA)
+  edtSubtotalResumen.Text := FormatFloat('#,##0.00', Subtotal);
+  edtTotalResumen.Text := FormatFloat('#,##0.00', Subtotal);
+end;
+
+function TFOperaciones.ValidarStockParaVenta: Boolean;
+var
+  StockDisponible, CantidadRequerida: Integer;
+begin
+  Result := True;
+
+  with dm.tdetalles_temp do
+  begin
+    First;
+    while not Eof do
+    begin
+      // Buscar el producto en la base de datos
+      if dm.tproductos.Locate('id', FieldByName('producto_id').AsInteger, []) then
+      begin
+        StockDisponible := dm.tproductos.FieldByName('stock_actual').AsInteger;
+        CantidadRequerida := FieldByName('cantidad').AsInteger;
+
+        if CantidadRequerida > StockDisponible then
+        begin
+          ShowMessage('Stock insuficiente para: ' + FieldByName('nombre').AsString +
+                     '. Stock disponible: ' + IntToStr(StockDisponible) +
+                     ', Cantidad requerida: ' + IntToStr(CantidadRequerida));
+          Result := False;
+          Exit;
+        end;
+      end;
+      Next;
+    end;
+  end;
+end;
+
+procedure TFOperaciones.ProcesarOperacion;
+var
+  ContactoID: Integer;
+  TipoMovimiento: string;
+begin
+  // Determinar tipo de movimiento y contacto
+  case FTipoOperacion of
+    toCompra:
+    begin
+      TipoMovimiento := 'ENTRADA';
+      ContactoID := FProveedorClienteID;
+    end;
+    toVenta:
+    begin
+      TipoMovimiento := 'SALIDA';
+      ContactoID := FProveedorClienteID;
+    end;
+  end;
+
+  // Procesar cada producto
+  with dm.tdetalles_temp do
+  begin
+    First;
+    while not Eof do
+    begin
+      // 1. Crear movimiento
+      dm.tmovimientos.Append;
+      dm.tmovimientos.FieldByName('producto_id').AsInteger := FieldByName('producto_id').AsInteger;
+      dm.tmovimientos.FieldByName('tipo_movimiento').AsString := TipoMovimiento;
+      dm.tmovimientos.FieldByName('cantidad').AsInteger := FieldByName('cantidad').AsInteger;
+
+      // Asignar proveedor o cliente según el tipo
+      if FTipoOperacion = toCompra then
+      begin
+        dm.tmovimientos.FieldByName('proveedor_id').AsInteger := ContactoID;
+        dm.tmovimientos.FieldByName('cliente_id').Clear;
+      end
+      else
+      begin
+        dm.tmovimientos.FieldByName('cliente_id').AsInteger := ContactoID;
+        dm.tmovimientos.FieldByName('proveedor_id').Clear;
+      end;
+
+      dm.tmovimientos.FieldByName('referencia').AsString := edtReferencia.Text;
+      dm.tmovimientos.FieldByName('observaciones').AsString := memObservaciones.Text;
+      dm.tmovimientos.FieldByName('fecha_movimiento').AsDateTime := dtpFecha.Date;
+      dm.tmovimientos.Post;
+
+      // 2. Actualizar stock del producto
+      if dm.tproductos.Locate('id', FieldByName('producto_id').AsInteger, []) then
+      begin
+        dm.tproductos.Edit;
+        if FTipoOperacion = toCompra then
+          dm.tproductos.FieldByName('stock_actual').AsInteger :=
+            dm.tproductos.FieldByName('stock_actual').AsInteger + FieldByName('cantidad').AsInteger
+        else
+          dm.tproductos.FieldByName('stock_actual').AsInteger :=
+            dm.tproductos.FieldByName('stock_actual').AsInteger - FieldByName('cantidad').AsInteger;
+        dm.tproductos.Post;
+      end;
+
+      Next;
+    end;
+  end;
+
+  // Limpiar tabla temporal
+  dm.tdetalles_temp.EmptyDataSet;
+end;
 
 
 
